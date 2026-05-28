@@ -240,6 +240,10 @@ Fill `.env` with an OpenAI-compatible endpoint:
 ```text
 BASE_URL=https://openrouter.ai/api/v1
 API_KEY=your_api_key_here
+EVAL_MODEL=openai/gpt-5.4
+ACTOR_MODEL=qwen/qwen3.6-35b-a3b
+SIMULATOR_MODEL=openai/gpt-5.4
+SELECTOR_MODEL=openai/gpt-5.4
 ```
 
 Do not commit `.env`. It is ignored by default.
@@ -249,7 +253,6 @@ Do not commit `.env`. It is ignored by default.
 ```bash
 python -m evaluation.level1.evaluate \
   --split test \
-  --model openai/gpt-5.4 \
   --output results/level1_gpt54.jsonl
 ```
 
@@ -258,7 +261,6 @@ python -m evaluation.level1.evaluate \
 ```bash
 python -m evaluation.level2.evaluate \
   --split test \
-  --model openai/gpt-5.4 \
   --output results/level2_gpt54.jsonl
 ```
 
@@ -270,15 +272,29 @@ Each command writes one JSONL row per evaluated sample plus a `.summary.json` fi
 python -m agents.run_agent \
   --level 2 \
   --split test \
-  --actor-model qwen/qwen3.6-35b-a3b \
-  --simulator-model openai/gpt-5.4 \
-  --selector-model openai/gpt-5.4 \
   --samples 4 \
   --limit 5 \
   --output results/agent_level2_demo.jsonl
 ```
 
 The agent reads `BASE_URL` and `API_KEY` from `.env` by default. Advanced users may set `ACTOR_BASE_URL` / `ACTOR_API_KEY`, `SIMULATOR_BASE_URL` / `SIMULATOR_API_KEY`, and `SELECTOR_BASE_URL` / `SELECTOR_API_KEY` to route the three stages to different endpoints.
+
+### 7. Run Tests
+
+Offline tests validate dataset loading contracts, direct evaluation scoring, AST metrics, and the Actor-Simulator-Selector workflow with fake clients:
+
+```bash
+python -m unittest discover tests
+python -m unittest discover agents/tests
+```
+
+OpenRouter smoke tests are opt-in because they call real models:
+
+```bash
+RUN_LABHORIZON_OPENROUTER_TESTS=1 python -m unittest tests.test_openrouter_smoke
+```
+
+The smoke tests run one Level 1 direct-evaluation sample, one Level 2 direct-evaluation sample, and one Level 2 agent sample.
 
 ## ⚙️ Useful Options
 
@@ -315,11 +331,15 @@ LabHorizon/
 │       ├── prompts.py            # Protocol-conditioned planning prompts
 │       ├── metrics.py            # AST parsing and ASS / PA metrics
 │       └── evaluate.py           # Level 2 evaluation entry point
-└── agents/
-    ├── run_agent.py              # Actor-Simulator-Selector CLI
-    ├── workflow.py               # Candidate sampling, simulation, selection, scoring
-    ├── prompts.py                # Actor / Simulator / Selector prompts
-    └── tests/                    # Offline smoke tests
+├── agents/
+│   ├── run_agent.py              # Actor-Simulator-Selector CLI
+│   ├── workflow.py               # Candidate sampling, simulation, selection, scoring
+│   ├── prompts.py                # Actor / Simulator / Selector prompts
+│   └── tests/                    # Offline smoke tests
+└── tests/
+    ├── test_evaluation.py        # Direct evaluator unit tests
+    ├── test_agent.py             # Agent workflow unit tests
+    └── test_openrouter_smoke.py  # Opt-in real API smoke tests
 ```
 
 Generated outputs should go under `results/`, which is ignored by default.

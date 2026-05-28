@@ -81,7 +81,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--split", choices=["train", "test"], default="test")
     parser.add_argument("--data-root", type=Path, default=default_data_root())
     parser.add_argument("--cache-dir", type=Path, default=default_cache_dir())
-    parser.add_argument("--model", required=True)
+    parser.add_argument("--model", help="Model ID. Defaults to EVAL_MODEL from .env or the environment.")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--limit", type=int)
     parser.add_argument("--resume", action="store_true")
@@ -94,6 +94,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     load_dotenv()
+    model = args.model or env_required("EVAL_MODEL")
     client = OpenAICompatibleClient(
         base_url=env_required("BASE_URL"),
         api_key=env_required("API_KEY"),
@@ -114,7 +115,7 @@ def main() -> None:
             print(f"[{index}/{len(dataset)}] cached {identifier}", flush=True)
             continue
         print(f"[{index}/{len(dataset)}] evaluating {identifier}", flush=True)
-        result = evaluate_row(row, client=client, model=args.model, temperature=args.temperature)
+        result = evaluate_row(row, client=client, model=model, temperature=args.temperature)
         results.append(result)
         write_jsonl(args.output, results)
 

@@ -29,9 +29,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--split", choices=["train", "test"], default="test")
     parser.add_argument("--data-root", type=Path, default=default_data_root())
     parser.add_argument("--cache-dir", type=Path, default=default_cache_dir())
-    parser.add_argument("--actor-model", required=True)
-    parser.add_argument("--simulator-model")
-    parser.add_argument("--selector-model")
+    parser.add_argument("--actor-model", help="Actor model ID. Defaults to ACTOR_MODEL from .env or the environment.")
+    parser.add_argument("--simulator-model", help="Simulator model ID. Defaults to SIMULATOR_MODEL, then actor model.")
+    parser.add_argument("--selector-model", help="Selector model ID. Defaults to SELECTOR_MODEL, then simulator model.")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--limit", type=int)
     parser.add_argument("--resume", action="store_true")
@@ -76,9 +76,10 @@ def summarize(level: int, rows: list[dict[str, Any]]) -> dict[str, Any]:
 def main() -> None:
     args = parse_args()
     load_dotenv()
-    simulator_model = args.simulator_model or args.actor_model
-    selector_model = args.selector_model or simulator_model
-    actor = make_client("ACTOR", model=args.actor_model, timeout=args.timeout, retries=args.retries)
+    actor_model = args.actor_model or env_required("ACTOR_MODEL")
+    simulator_model = args.simulator_model or os.environ.get("SIMULATOR_MODEL") or actor_model
+    selector_model = args.selector_model or os.environ.get("SELECTOR_MODEL") or simulator_model
+    actor = make_client("ACTOR", model=actor_model, timeout=args.timeout, retries=args.retries)
     simulator = make_client("SIMULATOR", model=simulator_model, timeout=args.timeout, retries=args.retries)
     selector = make_client("SELECTOR", model=selector_model, timeout=args.timeout, retries=args.retries)
 
