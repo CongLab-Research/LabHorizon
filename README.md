@@ -21,6 +21,10 @@
 
 ---
 
+<p align="center">
+  <img src="assets/terser.png" alt="LabHorizon laboratory asset teaser" width="100%">
+</p>
+
 ## 🔎 Overview
 
 **LabHorizon** is a data and evaluation suite for laboratory action prediction. It studies how models connect multi-view laboratory assets, real-world experimental context, and long-horizon action structure before they can support reliable AI scientist workflows.
