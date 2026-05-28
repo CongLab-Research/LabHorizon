@@ -10,18 +10,18 @@ from evaluation.level2.evaluate import evaluate_row as evaluate_level2_row
 from evaluation.utils import OpenAICompatibleClient, load_dotenv, load_level_dataset
 
 
-def openrouter_tests_enabled() -> bool:
+def api_tests_enabled() -> bool:
     load_dotenv()
     return (
-        os.environ.get("RUN_LABHORIZON_OPENROUTER_TESTS") == "1"
+        os.environ.get("RUN_LABHORIZON_API_TESTS") == "1"
         and bool(os.environ.get("BASE_URL"))
         and bool(os.environ.get("API_KEY"))
         and bool(os.environ.get("EVAL_MODEL"))
     )
 
 
-@unittest.skipUnless(openrouter_tests_enabled(), "set RUN_LABHORIZON_OPENROUTER_TESTS=1 and OpenRouter env vars")
-class OpenRouterSmokeTests(unittest.TestCase):
+@unittest.skipUnless(api_tests_enabled(), "set RUN_LABHORIZON_API_TESTS=1 and OpenAI-compatible API env vars")
+class ApiSmokeTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.eval_model = os.environ["EVAL_MODEL"]

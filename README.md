@@ -38,7 +38,7 @@ Unlike general scientific QA or diagram-based multimodal benchmarks, LabHorizon 
 <tr>
 <td align="center">📚<br/><b>3,000 + 3,000 Train</b><br/><sub>Training samples across two levels</sub></td>
 <td align="center">📊<br/><b>200 + 200 Test</b><br/><sub>Matched evaluation samples</sub></td>
-<td align="center">🔌<br/><b>OpenAI-Compatible</b><br/><sub>Works with OpenRouter and similar endpoints</sub></td>
+<td align="center">🔌<br/><b>OpenAI-Compatible</b><br/><sub>Works with any compatible model endpoint</sub></td>
 <td align="center">♻️<br/><b>Resume Friendly</b><br/><sub>JSONL outputs can be reused across runs</sub></td>
 </tr>
 </table>
@@ -238,7 +238,7 @@ cp .env.example .env
 Fill `.env` with an OpenAI-compatible endpoint:
 
 ```text
-BASE_URL=https://openrouter.ai/api/v1
+BASE_URL=https://your-openai-compatible-endpoint/v1
 API_KEY=your_api_key_here
 EVAL_MODEL=openai/gpt-5.4
 ACTOR_MODEL=qwen/qwen3.6-35b-a3b
@@ -288,10 +288,10 @@ python -m unittest discover tests
 python -m unittest discover agents/tests
 ```
 
-OpenRouter smoke tests are opt-in because they call real models:
+Real API smoke tests are opt-in because they call configured models through `BASE_URL`:
 
 ```bash
-RUN_LABHORIZON_OPENROUTER_TESTS=1 python -m unittest tests.test_openrouter_smoke
+RUN_LABHORIZON_API_TESTS=1 python -m unittest tests.test_api_smoke
 ```
 
 The smoke tests run one Level 1 direct-evaluation sample, one Level 2 direct-evaluation sample, and one Level 2 agent sample.
@@ -339,7 +339,7 @@ LabHorizon/
 └── tests/
     ├── test_evaluation.py        # Direct evaluator unit tests
     ├── test_agent.py             # Agent workflow unit tests
-    └── test_openrouter_smoke.py  # Opt-in real API smoke tests
+    └── test_api_smoke.py         # Opt-in real API smoke tests
 ```
 
 Generated outputs should go under `results/`, which is ignored by default.
