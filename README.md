@@ -33,7 +33,7 @@ Unlike general scientific QA or diagram-based multimodal benchmarks, LabHorizon 
 
 ## 📰 News
 
-- **2026-05-28:** Refreshed the public Website with a rocket favicon, direct GitHub / Hugging Face links, diversified demo assets, and updated real test examples. Level 1 now highlights thermal cycler and thermal mixer samples with upright checked asset views. Level 2 now shows plasmid DNA purification and Hi-C fill-in / ligation samples with card-based constraints, available-input cards, expandable action-pool cards, and graph-like gold action sequences.
+- **2026-05-28:** Refreshed the public Website with a rocket favicon, direct GitHub / Hugging Face links, diversified demo assets, and updated real test examples. Level 1 now highlights thermal cycler and vortex mixer samples with upright checked asset views. Level 2 now shows plasmid DNA purification and mRNA cleanup samples with card-based constraints, available-input cards, expandable action-pool cards, and graph-like gold action sequences.
 - **2026-05-28:** Initialized the public LabHorizon repository and released the two Hugging Face datasets: Level 1 3D Asset Perception and Level 2 Protocol-Conditioned Planning, each with train and test splits.
 
 ### ✨ Highlights
@@ -85,8 +85,8 @@ flowchart TD
 
 The `docs/` directory contains a static GitHub Pages explorer for LabHorizon. It keeps the original dark visual style and interactive Three.js laboratory asset viewer, but now focuses on the two released data levels. The current public demo samples are chosen for asset diversity and manually checked so the rendered assets are upright, readable, and not broken.
 
-- **Level 1:** real public test samples with thermal cycler and thermal mixer assets, three rendered asset views, historical actions, candidate next actions, card-based reference reasoning, and gold next action.
-- **Level 2:** real public test samples covering plasmid DNA purification and Hi-C fill-in / ligation, with context, goal, card-based constraints, available-input cards, expandable action-pool cards, and a graph-like gold experimental action sequence.
+- **Level 1:** real public test samples with thermal cycler and vortex mixer assets, three rendered asset views, historical actions, candidate next actions, card-based reference reasoning, and gold next action.
+- **Level 2:** real public test samples covering plasmid DNA purification and mRNA cleanup, with context, goal, card-based constraints, available-input cards, expandable action-pool cards, and a graph-like gold experimental action sequence.
 
 The sidebar also links directly to the GitHub repository and both Hugging Face dataset cards.
 
