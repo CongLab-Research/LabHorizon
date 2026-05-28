@@ -110,40 +110,40 @@ The tables below report direct-prompting model results on the current `v20260510
 
 ### 🔬 Level 1: 3D Asset Perception
 
-| Rank | Model | Next Action Accuracy | Correct | Invalid |
-|:---:|:---|---:|---:|---:|
-| 🥇 | Grok 4.3 | 0.555 | 111 / 200 | 0 |
-| 🥈 | Kimi K2.6 | 0.550 | 110 / 200 | 0 |
-| 🥉 | GPT-5.5 | 0.535 | 107 / 200 | 12 |
-| 4 | GPT-5.4 | 0.520 | 104 / 200 | 0 |
-| 5 | Qwen3.6 Plus | 0.505 | 101 / 200 | 10 |
-| 6 | Claude Opus 4.7 | 0.500 | 100 / 200 | 2 |
-| 7 | Qwen3.5 35B-A3B | 0.495 | 99 / 200 | 5 |
-| 8 | MiMo V2.5 | 0.495 | 99 / 200 | 9 |
-| 9 | Qwen3.5 9B | 0.485 | 97 / 200 | 0 |
-| 10 | Gemini 3.5 Flash | 0.485 | 97 / 200 | 0 |
-| 11 | Qwen3.6 35B-A3B | 0.475 | 95 / 200 | 0 |
-| 12 | Gemini 3.1 Pro Preview | 0.465 | 93 / 200 | 0 |
+| Rank | Model | Next Action Accuracy |
+|:---:|:---|---:|
+| 🥇 | Grok 4.3 | 0.555 |
+| 🥈 | Kimi K2.6 | 0.550 |
+| 🥉 | GPT-5.5 | 0.535 |
+| 4 | GPT-5.4 | 0.520 |
+| 5 | Qwen3.6 Plus | 0.505 |
+| 6 | Claude Opus 4.7 | 0.500 |
+| 7 | Qwen3.5 35B-A3B | 0.495 |
+| 8 | MiMo V2.5 | 0.495 |
+| 9 | Qwen3.5 9B | 0.485 |
+| 10 | Gemini 3.5 Flash | 0.485 |
+| 11 | Qwen3.6 35B-A3B | 0.475 |
+| 12 | Gemini 3.1 Pro Preview | 0.465 |
 
 ### 🧪 Level 2: Protocol-Conditioned Planning
 
-| Rank | Model | Final Score | Action Sequence Similarity | Parameter Accuracy | Invalid |
-|:---:|:---|---:|---:|---:|---:|
-| 🥇 | Gemini 3.1 Pro Preview | 0.3263 | 0.3195 | 0.3331 | 5 |
-| 🥈 | Grok 4.3 | 0.3244 | 0.3339 | 0.3148 | 1 |
-| 🥉 | Kimi K2.6 | 0.3150 | 0.2845 | 0.3456 | 7 |
-| 4 | Gemini 3.5 Flash | 0.3039 | 0.2686 | 0.3391 | 7 |
-| 5 | Qwen3.7 Max | 0.3003 | 0.2905 | 0.3102 | 1 |
-| 6 | Claude Opus 4.7 | 0.2737 | 0.2619 | 0.2856 | 12 |
-| 7 | GPT-5.4 | 0.2715 | 0.2191 | 0.3239 | 2 |
-| 8 | Qwen3.6 35B-A3B | 0.2534 | 0.2585 | 0.2483 | 15 |
-| 9 | Qwen3.6 Plus | 0.2526 | 0.2264 | 0.2787 | 53 |
-| 10 | MiMo V2.5 | 0.2491 | 0.2269 | 0.2713 | 37 |
-| 11 | GLM 5.1 | 0.2413 | 0.2307 | 0.2519 | 34 |
-| 12 | Qwen3.5 35B-A3B | 0.2391 | 0.2385 | 0.2398 | 35 |
-| 13 | GPT-5.5 | 0.2276 | 0.2092 | 0.2459 | 45 |
-| 14 | DeepSeek V4 Pro | 0.2135 | 0.1927 | 0.2342 | 56 |
-| 15 | Qwen3.5 9B | 0.1315 | 0.1359 | 0.1271 | 110 |
+| Rank | Model | Final Score | Action Sequence Similarity | Parameter Accuracy |
+|:---:|:---|---:|---:|---:|
+| 🥇 | Gemini 3.1 Pro Preview | 0.3263 | 0.3195 | 0.3331 |
+| 🥈 | Grok 4.3 | 0.3244 | 0.3339 | 0.3148 |
+| 🥉 | Kimi K2.6 | 0.3150 | 0.2845 | 0.3456 |
+| 4 | Gemini 3.5 Flash | 0.3039 | 0.2686 | 0.3391 |
+| 5 | Qwen3.7 Max | 0.3003 | 0.2905 | 0.3102 |
+| 6 | Claude Opus 4.7 | 0.2737 | 0.2619 | 0.2856 |
+| 7 | GPT-5.4 | 0.2715 | 0.2191 | 0.3239 |
+| 8 | Qwen3.6 35B-A3B | 0.2534 | 0.2585 | 0.2483 |
+| 9 | Qwen3.6 Plus | 0.2526 | 0.2264 | 0.2787 |
+| 10 | MiMo V2.5 | 0.2491 | 0.2269 | 0.2713 |
+| 11 | GLM 5.1 | 0.2413 | 0.2307 | 0.2519 |
+| 12 | Qwen3.5 35B-A3B | 0.2391 | 0.2385 | 0.2398 |
+| 13 | GPT-5.5 | 0.2276 | 0.2092 | 0.2459 |
+| 14 | DeepSeek V4 Pro | 0.2135 | 0.1927 | 0.2342 |
+| 15 | Qwen3.5 9B | 0.1315 | 0.1359 | 0.1271 |
 
 ## 📏 Evaluation
 
