@@ -139,23 +139,20 @@ select {
   height: 18px;
 }
 
-.arxiv-mark {
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0;
+.project-logo {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }
 
-.hf-mark {
-  display: inline-grid;
-  place-items: center;
+.project-logo-hf {
   width: 22px;
   height: 22px;
-  border-radius: 5px;
-  background: #ffcc4d;
-  color: #141616;
-  font-size: 10px;
-  font-weight: 900;
-  line-height: 1;
+}
+
+.project-logo-arxiv {
+  width: 24px;
 }
 
 .project-link-text {
