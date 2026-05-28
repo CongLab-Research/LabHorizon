@@ -64,6 +64,22 @@ const MODEL_LIBRARY = {
     targetSize: 3.1,
     tags: ["3D asset", "Incubation", "Parameter-sensitive actions"],
   },
+  vortexMixer: {
+    label: "Vortex mixer",
+    description:
+      "Interactive 3D reference asset for vortexing, resuspension, and short mixing stages in protocol-conditioned action prediction.",
+    parts: [
+      ["assets/models/vortex_mixer/body-visual-0.obj", "#d7d8d5"],
+      ["assets/models/vortex_mixer/body-visual-1.obj", "#2a3b56"],
+      ["assets/models/vortex_mixer/body-visual-2.obj", "#aeb6bf"],
+      ["assets/models/vortex_mixer/knob-visual-0.obj", "#111417"],
+      ["assets/models/vortex_mixer/platform-visual-0.obj", "#1a1b1d"],
+      ["assets/models/vortex_mixer/switch-visual-0.obj", "#efefef"],
+    ],
+    rotation: [-Math.PI / 2, 0, Math.PI],
+    targetSize: 3.0,
+    tags: ["3D asset", "Mixing", "Vortexing"],
+  },
   tube15ml: {
     label: "15 mL centrifuge tube",
     description:
@@ -692,12 +708,18 @@ function parseActionPool(actionPool) {
 function createActionPoolBlock(sample) {
   const block = document.createElement("section");
   block.className = "detail-block";
+  const headingRow = document.createElement("div");
+  headingRow.className = "detail-heading-row";
   const heading = document.createElement("h4");
   const actionNames = Array.isArray(sample.action_pool_names) ? sample.action_pool_names : [];
   const parsedActions = parseActionPool(sample.action_pool);
   const byName = new Map(parsedActions.map((action) => [action.name, action]));
   const actions = actionNames.map((name) => byName.get(name) || { name, params: [], description: "" });
   heading.textContent = `Action pool (${actions.length} available actions)`;
+  const hint = document.createElement("span");
+  hint.className = "heading-hint";
+  hint.textContent = "Click an action to expand";
+  headingRow.append(heading, hint);
   const caption = document.createElement("p");
   caption.className = "block-caption";
   caption.textContent =
@@ -749,7 +771,7 @@ function createActionPoolBlock(sample) {
     grid.appendChild(card);
   });
 
-  block.append(heading, caption, grid);
+  block.append(headingRow, caption, grid);
   return block;
 }
 
@@ -957,7 +979,7 @@ function renderItemBody(section, sample) {
     dom.itemBody.appendChild(createImageGallery(sample));
     dom.itemBody.appendChild(createTextBlock("Historical actions", sample.historical_actions));
     dom.itemBody.appendChild(createOptionBlock(sample.candidate_next_actions, sample.next_action));
-    dom.itemBody.appendChild(createStepCardBlock("Reference reasoning", sample.reasoning, "Reason"));
+    dom.itemBody.appendChild(createStepCardBlock("Reference reasoning", sample.reasoning, "Reasoning Step"));
     dom.itemBody.appendChild(createGoldActionBlock(sample));
     return;
   }

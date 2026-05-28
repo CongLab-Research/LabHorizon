@@ -480,6 +480,27 @@ select {
   font-size: 16px;
 }
 
+.detail-heading-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+
+.heading-hint {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 9px;
+  border: 1px solid rgba(0, 194, 168, 0.38);
+  border-radius: 6px;
+  background: rgba(0, 194, 168, 0.08);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .detail-block ul,
 .detail-block ol {
   padding-left: 20px;
@@ -541,7 +562,7 @@ select {
 
 .step-card {
   display: grid;
-  grid-template-columns: 92px minmax(0, 1fr);
+  grid-template-columns: 132px minmax(0, 1fr);
   gap: 12px;
   align-items: start;
   padding: 12px;

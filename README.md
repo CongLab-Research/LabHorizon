@@ -15,7 +15,7 @@
 
 **Enhancing Laboratory 3D Perception and Long-Horizon Planning via Protocol-Conditioned Action Prediction**
 
-[Overview](#-overview) | [Explorer](#-github-pages-explorer) | [Datasets](#-datasets) | [Leaderboard](#-leaderboard) | [Agent](#-actor-simulator-selector-agent) | [Quick Start](#-quick-start) | [Citation](#-citation)
+[Overview](#-overview) | [News](#-news) | [Explorer](#-github-pages-explorer) | [Datasets](#-datasets) | [Leaderboard](#-leaderboard) | [Agent](#-actor-simulator-selector-agent) | [Quick Start](#-quick-start) | [Citation](#-citation)
 
 </div>
 
@@ -26,6 +26,11 @@
 **LabHorizon** is a data and evaluation suite for laboratory action prediction. It studies how models connect multi-view laboratory assets, real-world experimental context, and long-horizon action structure before they can support reliable AI scientist workflows.
 
 Unlike general scientific QA or diagram-based multimodal benchmarks, LabHorizon frames laboratory reasoning as **protocol-conditioned action prediction**: a model must either select the next protocol-consistent action from visually grounded candidates or produce a structured long-horizon experimental action sequence.
+
+## 📰 News
+
+- **2026-05-28:** Refreshed the public Website with a rocket favicon, direct GitHub / Hugging Face links, diversified demo assets, and updated real test examples. Level 1 now highlights thermal cycler and vortex mixer samples with upright checked asset views. Level 2 now shows plasmid DNA purification and S-Trap proteomics cleanup samples with card-based constraints, available-input cards, expandable action-pool cards, and graph-like gold action sequences.
+- **2026-05-28:** Initialized the public LabHorizon repository and released the two Hugging Face datasets: Level 1 3D Asset Perception and Level 2 Protocol-Conditioned Planning, each with train and test splits.
 
 ### ✨ Highlights
 
@@ -74,10 +79,12 @@ flowchart TD
 
 ## 🖥️ GitHub Pages Explorer
 
-The `docs/` directory contains a static GitHub Pages explorer for LabHorizon. It keeps the original dark visual style and interactive Three.js laboratory asset viewer, but now focuses on the two released data levels:
+The `docs/` directory contains a static GitHub Pages explorer for LabHorizon. It keeps the original dark visual style and interactive Three.js laboratory asset viewer, but now focuses on the two released data levels. The current public demo samples are chosen for asset diversity and manually checked so the rendered assets are upright, readable, and not broken.
 
-- **Level 1:** real public test samples with three rendered asset views, historical actions, candidate next actions, reference reasoning, and gold next action.
-- **Level 2:** real public test samples with context, goal, constraints, action pool, and gold structured experimental action sequence.
+- **Level 1:** real public test samples with thermal cycler and vortex mixer assets, three rendered asset views, historical actions, candidate next actions, card-based reference reasoning, and gold next action.
+- **Level 2:** real public test samples covering plasmid DNA purification and S-Trap proteomics cleanup, with context, goal, card-based constraints, available-input cards, expandable action-pool cards, and a graph-like gold experimental action sequence.
+
+The sidebar also links directly to the GitHub repository and both Hugging Face dataset cards.
 
 The page is fully static and can be previewed locally:
 
