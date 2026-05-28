@@ -176,28 +176,29 @@ select {
 
 .stanford-wordmark {
   display: grid;
-  gap: 2px;
+  gap: 3px;
   margin-top: auto;
   padding-top: 26px;
-  border-top: 1px solid rgba(140, 21, 21, 0.72);
+  border-top: 1px solid rgba(244, 246, 246, 0.72);
   color: #ffffff;
 }
 
 .stanford-kicker {
-  color: #b83a4b;
+  color: #ffffff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 0.88;
+}
+
+.stanford-name {
+  color: #ffffff;
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 0;
   line-height: 1;
   text-transform: uppercase;
-}
-
-.stanford-name {
-  color: #f4f6f6;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 31px;
-  font-weight: 700;
-  line-height: 0.95;
 }
 
 .nav-button,
