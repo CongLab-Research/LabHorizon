@@ -153,6 +153,11 @@ select {
 
 .project-logo-arxiv {
   width: 24px;
+  height: 24px;
+  padding: 3px;
+  border-radius: 5px;
+  background: #fff8f0;
+  box-sizing: border-box;
 }
 
 .project-link-text {
