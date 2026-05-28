@@ -14,7 +14,7 @@
 
 **Enhancing Laboratory 3D Perception and Long-Horizon Planning via Protocol-Conditioned Action Prediction**
 
-[Overview](#-overview) | [Datasets](#-datasets) | [Evaluation](#-evaluation) | [Quick Start](#-quick-start) | [Citation](#-citation)
+[Overview](#-overview) | [Datasets](#-datasets) | [Leaderboard](#-leaderboard) | [Agent](#-actor-simulator-selector-agent) | [Quick Start](#-quick-start) | [Citation](#-citation)
 
 </div>
 
@@ -104,6 +104,47 @@ flowchart TD
 | `action_pool` | Python function definitions describing available laboratory actions. |
 | `gold_action_sequence` | Gold long-horizon experimental action sequence. |
 
+## 🏆 Leaderboard
+
+The tables below report direct-prompting model results on the current `v20260510-repaired` 200-sample test split. Level 1 is sorted by `Next Action Accuracy`; Level 2 is sorted by `Final Score`.
+
+### 🔬 Level 1: 3D Asset Perception
+
+| Rank | Model | Next Action Accuracy | Correct | Invalid |
+|:---:|:---|---:|---:|---:|
+| 🥇 | Grok 4.3 | 0.555 | 111 / 200 | 0 |
+| 🥈 | Kimi K2.6 | 0.550 | 110 / 200 | 0 |
+| 🥉 | GPT-5.5 | 0.535 | 107 / 200 | 12 |
+| 4 | GPT-5.4 | 0.520 | 104 / 200 | 0 |
+| 5 | Qwen3.6 Plus | 0.505 | 101 / 200 | 10 |
+| 6 | Claude Opus 4.7 | 0.500 | 100 / 200 | 2 |
+| 7 | Qwen3.5 35B-A3B | 0.495 | 99 / 200 | 5 |
+| 8 | MiMo V2.5 | 0.495 | 99 / 200 | 9 |
+| 9 | Qwen3.5 9B | 0.485 | 97 / 200 | 0 |
+| 10 | Gemini 3.5 Flash | 0.485 | 97 / 200 | 0 |
+| 11 | Qwen3.6 35B-A3B | 0.475 | 95 / 200 | 0 |
+| 12 | Gemini 3.1 Pro Preview | 0.465 | 93 / 200 | 0 |
+
+### 🧪 Level 2: Protocol-Conditioned Planning
+
+| Rank | Model | Final Score | Action Sequence Similarity | Parameter Accuracy | Invalid |
+|:---:|:---|---:|---:|---:|---:|
+| 🥇 | Gemini 3.1 Pro Preview | 0.3263 | 0.3195 | 0.3331 | 5 |
+| 🥈 | Grok 4.3 | 0.3244 | 0.3339 | 0.3148 | 1 |
+| 🥉 | Kimi K2.6 | 0.3150 | 0.2845 | 0.3456 | 7 |
+| 4 | Gemini 3.5 Flash | 0.3039 | 0.2686 | 0.3391 | 7 |
+| 5 | Qwen3.7 Max | 0.3003 | 0.2905 | 0.3102 | 1 |
+| 6 | Claude Opus 4.7 | 0.2737 | 0.2619 | 0.2856 | 12 |
+| 7 | GPT-5.4 | 0.2715 | 0.2191 | 0.3239 | 2 |
+| 8 | Qwen3.6 35B-A3B | 0.2534 | 0.2585 | 0.2483 | 15 |
+| 9 | Qwen3.6 Plus | 0.2526 | 0.2264 | 0.2787 | 53 |
+| 10 | MiMo V2.5 | 0.2491 | 0.2269 | 0.2713 | 37 |
+| 11 | GLM 5.1 | 0.2413 | 0.2307 | 0.2519 | 34 |
+| 12 | Qwen3.5 35B-A3B | 0.2391 | 0.2385 | 0.2398 | 35 |
+| 13 | GPT-5.5 | 0.2276 | 0.2092 | 0.2459 | 45 |
+| 14 | DeepSeek V4 Pro | 0.2135 | 0.1927 | 0.2342 | 56 |
+| 15 | Qwen3.5 9B | 0.1315 | 0.1359 | 0.1271 | 110 |
+
 ## 📏 Evaluation
 
 The evaluator keeps model interaction simple and model-agnostic. It sends natural-language prompts to an OpenAI-compatible chat completions endpoint, stores raw model outputs as JSONL, and computes metrics locally.
@@ -134,6 +175,32 @@ The evaluator uses Python AST to extract action calls, keyword parameters, assig
 | `Action Sequence Similarity` | Whether predicted actions appear at the correct positions relative to the gold sequence. |
 | `Parameter Accuracy` | Whether aligned actions use correct parameter keys, values, raw inputs, and generated-variable dependencies. |
 | `Final Score` | The mean of Action Sequence Similarity and Parameter Accuracy. |
+
+## 🤖 Actor-Simulator-Selector Agent
+
+LabHorizon includes a bounded **Actor-Simulator-Selector** agent for protocol-conditioned action prediction. The agent is not an open-ended ReAct loop and does not use a physical simulator. It wraps model sampling with a structured experimental state checker:
+
+```mermaid
+flowchart LR
+    T["LabHorizon task<br/>Level 1 or Level 2"] --> Actor["Actor<br/>sample candidate actions"]
+    T --> Sim0["Simulator<br/>construct current and target states"]
+    Actor --> C["Candidate next actions<br/>or action sequences"]
+    Sim0 --> Sim1["Simulator<br/>predict candidate state transitions"]
+    C --> Sim1
+    Sim1 --> Selector["Selector<br/>rank candidates by target-state fit"]
+    Selector --> Out["Final prediction<br/>next action or action sequence"]
+
+    style Actor fill:#e0f2fe,stroke:#0284c7,stroke-width:2px
+    style Sim0 fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    style Sim1 fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    style Selector fill:#f5f3ff,stroke:#7c3aed,stroke-width:2px
+```
+
+The implementation in `agents/` uses the same public dataset schema and evaluation contracts as `evaluation/`:
+
+- Level 1 Actor outputs `Final Next Action: X`, then the Selector returns one candidate next action.
+- Level 2 Actor outputs a structured action sequence, then AST metrics score the selected sequence.
+- The Simulator and Selector can use the same model as the Actor or separate OpenAI-compatible models.
 
 ## 🚀 Quick Start
 
@@ -197,11 +264,28 @@ python -m evaluation.level2.evaluate \
 
 Each command writes one JSONL row per evaluated sample plus a `.summary.json` file. Use `--resume` to reuse already written rows after interruption.
 
+### 6. Run the Agent
+
+```bash
+python -m agents.run_agent \
+  --level 2 \
+  --split test \
+  --actor-model qwen/qwen3.6-35b-a3b \
+  --simulator-model openai/gpt-5.4 \
+  --selector-model openai/gpt-5.4 \
+  --samples 4 \
+  --limit 5 \
+  --output results/agent_level2_demo.jsonl
+```
+
+The agent reads `BASE_URL` and `API_KEY` from `.env` by default. Advanced users may set `ACTOR_BASE_URL` / `ACTOR_API_KEY`, `SIMULATOR_BASE_URL` / `SIMULATOR_API_KEY`, and `SELECTOR_BASE_URL` / `SELECTOR_API_KEY` to route the three stages to different endpoints.
+
 ## ⚙️ Useful Options
 
 ```bash
 python -m evaluation.level1.evaluate --help
 python -m evaluation.level2.evaluate --help
+python -m agents.run_agent --help
 ```
 
 | Option | Default | Purpose |
@@ -222,15 +306,20 @@ LabHorizon/
 ├── LICENSE
 ├── requirements.txt
 ├── .env.example
-└── evaluation/
-    ├── utils.py                  # OpenAI-compatible client, dataset loading, JSONL cache
-    ├── level1/
-    │   ├── prompts.py            # Multi-image next-action prompts and answer parsing
-    │   └── evaluate.py           # Level 1 evaluation entry point
-    └── level2/
-        ├── prompts.py            # Protocol-conditioned planning prompts
-        ├── metrics.py            # AST parsing and ASS / PA metrics
-        └── evaluate.py           # Level 2 evaluation entry point
+├── evaluation/
+│   ├── utils.py                  # OpenAI-compatible client, dataset loading, JSONL cache
+│   ├── level1/
+│   │   ├── prompts.py            # Multi-image next-action prompts and answer parsing
+│   │   └── evaluate.py           # Level 1 evaluation entry point
+│   └── level2/
+│       ├── prompts.py            # Protocol-conditioned planning prompts
+│       ├── metrics.py            # AST parsing and ASS / PA metrics
+│       └── evaluate.py           # Level 2 evaluation entry point
+└── agents/
+    ├── run_agent.py              # Actor-Simulator-Selector CLI
+    ├── workflow.py               # Candidate sampling, simulation, selection, scoring
+    ├── prompts.py                # Actor / Simulator / Selector prompts
+    └── tests/                    # Offline smoke tests
 ```
 
 Generated outputs should go under `results/`, which is ignored by default.
@@ -239,18 +328,11 @@ Generated outputs should go under `results/`, which is ignored by default.
 
 - Release paper metadata and citation after the manuscript is public.
 - Add official model results and analysis tables.
-- Add agent and fine-tuned model evaluation scripts when checkpoints are released.
+- Add official agent and fine-tuned model results when checkpoints are released.
 
 ## 📜 Citation
 
-```bibtex
-@misc{labhorizon2026,
-  title = {LabHorizon: Enhancing Laboratory 3D Perception and Long-Horizon Planning via Protocol-Conditioned Action Prediction},
-  author = {CongLab Research},
-  year = {2026},
-  url = {https://github.com/CongLab-Research/LabHorizon}
-}
-```
+Coming soon...
 
 ## 💬 Contact
 
