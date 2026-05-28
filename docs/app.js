@@ -521,7 +521,7 @@ function createImageGallery(sample) {
   return block;
 }
 
-function createOptionBlock(options) {
+function createOptionBlock(options, goldAction = "") {
   const block = document.createElement("section");
   block.className = "detail-block";
   const heading = document.createElement("h4");
@@ -532,6 +532,9 @@ function createOptionBlock(options) {
   options.forEach((text, index) => {
     const item = document.createElement("div");
     item.className = "option-item";
+    if (goldAction && text.trim() === goldAction.trim()) {
+      item.classList.add("is-gold");
+    }
     const key = document.createElement("span");
     key.className = "option-key";
     key.textContent = OPTION_KEYS[index] || `${index + 1}`;
@@ -545,22 +548,317 @@ function createOptionBlock(options) {
   return block;
 }
 
-function createActionChipBlock(title, actions) {
+function findGoldOptionKey(sample) {
+  const gold = sample.next_action.trim();
+  const index = sample.candidate_next_actions.findIndex((candidate) => candidate.trim() === gold);
+  return index >= 0 ? OPTION_KEYS[index] || `${index + 1}` : "Unmatched";
+}
+
+function createGoldActionBlock(sample) {
   const block = document.createElement("section");
   block.className = "detail-block";
   const heading = document.createElement("h4");
-  heading.textContent = title;
-  const list = document.createElement("div");
-  list.className = "protocol-flow";
+  heading.textContent = "Gold next action";
+  const box = document.createElement("div");
+  box.className = "gold-action-box";
+  const badge = document.createElement("span");
+  badge.className = "gold-option-badge";
+  badge.textContent = findGoldOptionKey(sample);
+  const text = document.createElement("span");
+  text.textContent = sample.next_action;
+  box.append(badge, text);
+  block.append(heading, box);
+  return block;
+}
 
-  actions.forEach((action) => {
-    const card = document.createElement("div");
-    card.className = "protocol-flow-card";
-    card.textContent = action;
-    list.appendChild(card);
+function parseAvailableInputs(rawInputs) {
+  try {
+    const parsed = JSON.parse(rawInputs);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+function createInputCardsBlock(rawInputs) {
+  const block = document.createElement("section");
+  block.className = "detail-block";
+  const heading = document.createElement("h4");
+  heading.textContent = "Available inputs";
+  const grid = document.createElement("div");
+  grid.className = "input-card-grid";
+
+  parseAvailableInputs(rawInputs).forEach((input) => {
+    const card = document.createElement("article");
+    card.className = "input-card";
+    const name = document.createElement("h5");
+    name.textContent = input.name || "input";
+    const description = document.createElement("p");
+    description.textContent = input.description || "No description provided.";
+    card.append(name, description);
+    grid.appendChild(card);
   });
 
-  block.append(heading, list);
+  block.append(heading, grid);
+  return block;
+}
+
+function parseDocstring(docstring) {
+  const lines = docstring
+    .replace(/\r/g, "")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+  const description = [];
+  const args = [];
+  const returns = [];
+  let mode = "description";
+
+  lines.forEach((line) => {
+    if (line === "Args:") {
+      mode = "args";
+      return;
+    }
+    if (line === "Returns:") {
+      mode = "returns";
+      return;
+    }
+    if (mode === "args") {
+      const match = line.match(/^([A-Za-z_][A-Za-z0-9_]*):\s*(.*)$/);
+      if (match) {
+        args.push({ name: match[1], description: match[2] });
+      }
+      return;
+    }
+    if (mode === "returns") {
+      returns.push(line);
+      return;
+    }
+    description.push(line);
+  });
+
+  return {
+    description: description.join(" "),
+    args,
+    returns: returns.join(" "),
+  };
+}
+
+function parseActionPool(actionPool) {
+  const pattern = /def\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\)[^:]*:\s*[\r\n]+\s*"""([\s\S]*?)"""/g;
+  const actions = [];
+  let match = pattern.exec(actionPool);
+
+  while (match) {
+    const params = match[2]
+      .split(",")
+      .map((param) => param.trim().split(":")[0].trim())
+      .filter(Boolean);
+    actions.push({
+      name: match[1],
+      params,
+      ...parseDocstring(match[3]),
+    });
+    match = pattern.exec(actionPool);
+  }
+
+  return actions;
+}
+
+function createActionPoolBlock(sample) {
+  const block = document.createElement("section");
+  block.className = "detail-block";
+  const heading = document.createElement("h4");
+  const actionNames = Array.isArray(sample.action_pool_names) ? sample.action_pool_names : [];
+  heading.textContent = `Action pool (${actionNames.length} actions)`;
+  const parsedActions = parseActionPool(sample.action_pool);
+  const byName = new Map(parsedActions.map((action) => [action.name, action]));
+  const actions = actionNames.map((name) => byName.get(name) || { name, params: [], description: "" });
+  const grid = document.createElement("div");
+  grid.className = "action-pool-grid";
+
+  actions.forEach((action) => {
+    const card = document.createElement("details");
+    card.className = "action-card";
+
+    const summary = document.createElement("summary");
+    summary.textContent = `${action.name} · ${action.params.length} inputs`;
+
+    const detail = document.createElement("div");
+    detail.className = "action-detail";
+    const inner = document.createElement("div");
+    inner.className = "action-detail-inner";
+
+    const description = document.createElement("p");
+    description.textContent = action.description || "No action description available.";
+    inner.appendChild(description);
+
+    if (action.args?.length) {
+      const args = document.createElement("div");
+      args.className = "arg-grid";
+      action.args.forEach((arg) => {
+        const chip = document.createElement("div");
+        chip.className = "arg-chip";
+        const argName = document.createElement("strong");
+        argName.textContent = arg.name;
+        const argDescription = document.createElement("span");
+        argDescription.textContent = arg.description;
+        chip.append(argName, argDescription);
+        args.appendChild(chip);
+      });
+      inner.appendChild(args);
+    }
+
+    if (action.returns) {
+      const returns = document.createElement("p");
+      returns.className = "returns-line";
+      returns.textContent = `Returns: ${action.returns}`;
+      inner.appendChild(returns);
+    }
+
+    detail.appendChild(inner);
+    card.append(summary, detail);
+    grid.appendChild(card);
+  });
+
+  block.append(heading, grid);
+  return block;
+}
+
+function splitTopLevel(text) {
+  const result = [];
+  let current = "";
+  let quote = "";
+  let depth = 0;
+  let escaped = false;
+
+  for (const char of text) {
+    if (quote) {
+      current += char;
+      if (escaped) {
+        escaped = false;
+      } else if (char === "\\") {
+        escaped = true;
+      } else if (char === quote) {
+        quote = "";
+      }
+      continue;
+    }
+    if (char === "'" || char === '"') {
+      quote = char;
+      current += char;
+      continue;
+    }
+    if (char === "(" || char === "[" || char === "{") {
+      depth += 1;
+    } else if (char === ")" || char === "]" || char === "}") {
+      depth = Math.max(0, depth - 1);
+    }
+    if (char === "," && depth === 0) {
+      result.push(current.trim());
+      current = "";
+      continue;
+    }
+    current += char;
+  }
+
+  if (current.trim()) {
+    result.push(current.trim());
+  }
+  return result;
+}
+
+function parseActionSequence(sequence) {
+  return sequence
+    .split(/\n+/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line, index) => {
+      const match = line.match(/^([A-Za-z_][A-Za-z0-9_]*)\s*=\s*([A-Za-z_][A-Za-z0-9_]*)\((.*)\)$/);
+      if (!match) {
+        return {
+          index: index + 1,
+          output: `step${index + 1}`,
+          action: "unparsed_action",
+          params: [{ key: "raw", value: line }],
+        };
+      }
+      const params = splitTopLevel(match[3]).map((entry) => {
+        const eqIndex = entry.indexOf("=");
+        if (eqIndex < 0) {
+          return { key: "arg", value: entry };
+        }
+        return {
+          key: entry.slice(0, eqIndex).trim(),
+          value: entry.slice(eqIndex + 1).trim(),
+        };
+      });
+      return {
+        index: index + 1,
+        output: match[1],
+        action: match[2],
+        params,
+      };
+    });
+}
+
+function createGoldSequenceMap(sequence) {
+  const block = document.createElement("section");
+  block.className = "detail-block";
+  const heading = document.createElement("h4");
+  heading.textContent = "Gold action sequence";
+  const map = document.createElement("div");
+  map.className = "sequence-map";
+  const steps = parseActionSequence(sequence);
+  const outputToStep = new Map(steps.map((step) => [step.output, step.index]));
+
+  steps.forEach((step) => {
+    const node = document.createElement("article");
+    node.className = "sequence-node";
+
+    const index = document.createElement("div");
+    index.className = "sequence-index";
+    index.textContent = `Step ${step.index}`;
+
+    const body = document.createElement("div");
+    body.className = "sequence-body";
+    const action = document.createElement("h5");
+    action.textContent = step.action;
+    const output = document.createElement("p");
+    output.className = "sequence-output";
+    output.textContent = `Output: ${step.output}`;
+
+    const params = document.createElement("div");
+    params.className = "param-grid";
+    step.params.forEach((param) => {
+      const chip = document.createElement("span");
+      chip.className = "param-chip";
+      chip.textContent = `${param.key} = ${param.value}`;
+      params.appendChild(chip);
+    });
+
+    body.append(action, output, params);
+    const dependencies = step.params
+      .filter((param) => outputToStep.has(param.value))
+      .map((param) => `${param.key} <- Step ${outputToStep.get(param.value)}`);
+    if (dependencies.length) {
+      const depGrid = document.createElement("div");
+      depGrid.className = "dependency-grid";
+      dependencies.forEach((dependency) => {
+        const chip = document.createElement("span");
+        chip.className = "dependency-chip";
+        chip.textContent = dependency;
+        depGrid.appendChild(chip);
+      });
+      body.appendChild(depGrid);
+    }
+
+    node.append(index, body);
+    map.appendChild(node);
+  });
+
+  block.append(heading, map);
   return block;
 }
 
@@ -627,9 +925,9 @@ function renderItemBody(section, sample) {
   if (section.id === "level-1") {
     dom.itemBody.appendChild(createImageGallery(sample));
     dom.itemBody.appendChild(createTextBlock("Historical actions", sample.historical_actions));
-    dom.itemBody.appendChild(createOptionBlock(sample.candidate_next_actions));
+    dom.itemBody.appendChild(createOptionBlock(sample.candidate_next_actions, sample.next_action));
     dom.itemBody.appendChild(createListBlock("Reference reasoning", sample.reasoning, true));
-    dom.itemBody.appendChild(createAnswerBox("Gold next action", sample.next_action, "answer-box"));
+    dom.itemBody.appendChild(createGoldActionBlock(sample));
     return;
   }
 
@@ -638,10 +936,9 @@ function renderItemBody(section, sample) {
   dom.itemBody.appendChild(createTextBlock("Context", sample.context));
   dom.itemBody.appendChild(createTextBlock("Goal", sample.goal));
   dom.itemBody.appendChild(createListBlock("Constraints", sample.constraints, true));
-  dom.itemBody.appendChild(createCodeBlock("Available inputs", sample.available_inputs));
-  dom.itemBody.appendChild(createActionChipBlock("Action pool names", sample.action_pool_names));
-  dom.itemBody.appendChild(createCodeBlock("Action pool", sample.action_pool));
-  dom.itemBody.appendChild(createCodeBlock("Gold action sequence", sample.gold_action_sequence));
+  dom.itemBody.appendChild(createInputCardsBlock(sample.available_inputs));
+  dom.itemBody.appendChild(createActionPoolBlock(sample));
+  dom.itemBody.appendChild(createGoldSequenceMap(sample.gold_action_sequence));
 }
 
 async function render() {

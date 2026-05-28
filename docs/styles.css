@@ -456,9 +456,286 @@ select {
   background: var(--panel-2);
 }
 
+.option-item.is-gold {
+  border-color: var(--accent);
+  background: rgba(0, 194, 168, 0.1);
+}
+
 .option-key {
   font-weight: 700;
   color: var(--accent-3);
+}
+
+.gold-action-box {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 12px;
+  border: 1px solid rgba(0, 194, 168, 0.52);
+  border-radius: 6px;
+  background: rgba(0, 194, 168, 0.1);
+  color: var(--text);
+}
+
+.gold-option-badge {
+  display: inline-grid;
+  place-items: center;
+  min-height: 36px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #071110;
+  font-weight: 800;
+}
+
+.input-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.input-card {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel-2);
+}
+
+.input-card h5,
+.sequence-body h5 {
+  margin: 0;
+  color: var(--text);
+  font-size: 15px;
+}
+
+.input-card p,
+.sequence-output,
+.action-detail-inner p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.action-pool-grid {
+  display: grid;
+  gap: 10px;
+  max-height: 620px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.action-card {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel-2);
+  transition: border-color 180ms ease, background 180ms ease;
+}
+
+.action-card[open] {
+  border-color: var(--accent);
+  background: rgba(0, 194, 168, 0.08);
+}
+
+.action-card summary {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 44px 12px 12px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 13px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  list-style: none;
+}
+
+.action-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.action-card summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-top: -11px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--accent-2);
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.action-card[open] summary::after {
+  transform: rotate(45deg);
+  border-color: var(--accent);
+}
+
+.pool-action-name {
+  min-width: 0;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.pool-action-meta {
+  color: var(--accent-2);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.action-detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 220ms ease;
+}
+
+.action-card[open] .action-detail {
+  grid-template-rows: 1fr;
+}
+
+.action-detail-inner {
+  display: grid;
+  gap: 10px;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0 12px;
+}
+
+.action-card[open] .action-detail-inner {
+  padding-bottom: 12px;
+  animation: actionDetailIn 180ms ease;
+}
+
+@keyframes actionDetailIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.arg-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.arg-chip {
+  display: grid;
+  gap: 3px;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #101111;
+}
+
+.arg-chip strong {
+  color: var(--accent-3);
+  font-size: 12px;
+}
+
+.arg-chip span,
+.returns-line {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.sequence-map {
+  display: grid;
+  gap: 14px;
+  max-height: 820px;
+  overflow: auto;
+  padding: 2px 4px 2px 0;
+}
+
+.sequence-node {
+  position: relative;
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.sequence-node::before {
+  content: "";
+  position: absolute;
+  left: 36px;
+  top: 34px;
+  bottom: -18px;
+  width: 1px;
+  background: var(--line);
+}
+
+.sequence-node:last-child::before {
+  display: none;
+}
+
+.sequence-index {
+  position: relative;
+  z-index: 1;
+  display: inline-grid;
+  place-items: center;
+  align-self: start;
+  min-height: 34px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: #102520;
+  color: var(--accent-2);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.sequence-body {
+  display: grid;
+  gap: 9px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel-2);
+}
+
+.param-grid,
+.dependency-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.param-chip,
+.dependency-chip {
+  display: inline-flex;
+  max-width: 100%;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.param-chip {
+  border: 1px solid var(--line);
+  background: #101111;
+  color: var(--muted);
+}
+
+.dependency-chip {
+  border: 1px solid rgba(255, 176, 0, 0.46);
+  background: rgba(255, 176, 0, 0.09);
+  color: #ffd37a;
 }
 
 .protocol-flow {
@@ -539,6 +816,18 @@ select {
 
   .asset-view-grid {
     grid-template-columns: 1fr;
+  }
+
+  .input-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sequence-node {
+    grid-template-columns: 58px minmax(0, 1fr);
+  }
+
+  .sequence-node::before {
+    left: 28px;
   }
 
   .feature-head {
