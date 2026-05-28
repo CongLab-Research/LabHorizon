@@ -283,7 +283,6 @@ const dom = {
   itemKind: document.getElementById("item-kind"),
   itemTitle: document.getElementById("item-title"),
   itemBody: document.getElementById("item-body"),
-  levelNoteBody: document.getElementById("level-note-body"),
 };
 
 const mainViewer = new InstrumentViewer(dom.viewer);
@@ -483,6 +482,30 @@ function createListBlock(title, items, ordered = false) {
   return block;
 }
 
+function createStepCardBlock(title, items, label = "Step") {
+  const block = document.createElement("section");
+  block.className = "detail-block";
+  const heading = document.createElement("h4");
+  heading.textContent = title;
+  const grid = document.createElement("div");
+  grid.className = "step-card-grid";
+
+  items.forEach((item, index) => {
+    const card = document.createElement("article");
+    card.className = "step-card";
+    const badge = document.createElement("span");
+    badge.className = "step-card-badge";
+    badge.textContent = `${label} ${index + 1}`;
+    const text = document.createElement("p");
+    text.textContent = item;
+    card.append(badge, text);
+    grid.appendChild(card);
+  });
+
+  block.append(heading, grid);
+  return block;
+}
+
 function createCodeBlock(title, content) {
   const block = document.createElement("section");
   block.className = "detail-block";
@@ -671,10 +694,14 @@ function createActionPoolBlock(sample) {
   block.className = "detail-block";
   const heading = document.createElement("h4");
   const actionNames = Array.isArray(sample.action_pool_names) ? sample.action_pool_names : [];
-  heading.textContent = `Action pool (${actionNames.length} actions)`;
   const parsedActions = parseActionPool(sample.action_pool);
   const byName = new Map(parsedActions.map((action) => [action.name, action]));
   const actions = actionNames.map((name) => byName.get(name) || { name, params: [], description: "" });
+  heading.textContent = `Action pool (${actions.length} available actions)`;
+  const caption = document.createElement("p");
+  caption.className = "block-caption";
+  caption.textContent =
+    "The pool lists all callable action types for this task; the gold sequence uses only the subset required by the current protocol segment.";
   const grid = document.createElement("div");
   grid.className = "action-pool-grid";
 
@@ -722,7 +749,7 @@ function createActionPoolBlock(sample) {
     grid.appendChild(card);
   });
 
-  block.append(heading, grid);
+  block.append(heading, caption, grid);
   return block;
 }
 
@@ -807,10 +834,14 @@ function createGoldSequenceMap(sequence) {
   const block = document.createElement("section");
   block.className = "detail-block";
   const heading = document.createElement("h4");
-  heading.textContent = "Gold action sequence";
   const map = document.createElement("div");
   map.className = "sequence-map";
   const steps = parseActionSequence(sequence);
+  const uniqueActions = new Set(steps.map((step) => step.action));
+  heading.textContent = `Gold action sequence (${steps.length} steps)`;
+  const caption = document.createElement("p");
+  caption.className = "block-caption";
+  caption.textContent = `This target sequence uses ${uniqueActions.size} action types from the available pool and connects intermediate outputs through explicit dependencies.`;
   const outputToStep = new Map(steps.map((step) => [step.output, step.index]));
 
   steps.forEach((step) => {
@@ -858,7 +889,7 @@ function createGoldSequenceMap(sequence) {
     map.appendChild(node);
   });
 
-  block.append(heading, map);
+  block.append(heading, caption, map);
   return block;
 }
 
@@ -926,7 +957,7 @@ function renderItemBody(section, sample) {
     dom.itemBody.appendChild(createImageGallery(sample));
     dom.itemBody.appendChild(createTextBlock("Historical actions", sample.historical_actions));
     dom.itemBody.appendChild(createOptionBlock(sample.candidate_next_actions, sample.next_action));
-    dom.itemBody.appendChild(createListBlock("Reference reasoning", sample.reasoning, true));
+    dom.itemBody.appendChild(createStepCardBlock("Reference reasoning", sample.reasoning, "Reason"));
     dom.itemBody.appendChild(createGoldActionBlock(sample));
     return;
   }
@@ -935,7 +966,7 @@ function renderItemBody(section, sample) {
   dom.itemBody.appendChild(createListBlock("Visible 3D instruments", visibleInstruments));
   dom.itemBody.appendChild(createTextBlock("Context", sample.context));
   dom.itemBody.appendChild(createTextBlock("Goal", sample.goal));
-  dom.itemBody.appendChild(createListBlock("Constraints", sample.constraints, true));
+  dom.itemBody.appendChild(createStepCardBlock("Constraints", sample.constraints, "Constraint"));
   dom.itemBody.appendChild(createInputCardsBlock(sample.available_inputs));
   dom.itemBody.appendChild(createActionPoolBlock(sample));
   dom.itemBody.appendChild(createGoldSequenceMap(sample.gold_action_sequence));
@@ -952,10 +983,6 @@ async function render() {
   dom.sectionKicker.textContent = section.kicker;
   dom.sectionTitle.textContent = section.title;
   dom.sectionSummary.textContent = section.summary;
-  dom.levelNoteBody.innerHTML = "";
-  const note = document.createElement("p");
-  note.textContent = section.note;
-  dom.levelNoteBody.appendChild(note);
 
   renderItemBody(section, sample);
   await renderFeature(section, sample);
