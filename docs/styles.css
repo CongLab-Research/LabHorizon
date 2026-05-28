@@ -123,9 +123,26 @@ select {
   transform: translateY(-1px);
 }
 
+.project-link-disabled {
+  cursor: default;
+  color: #f4b4b4;
+}
+
+.project-link-disabled:hover {
+  border-color: var(--line);
+  background: var(--panel-2);
+  transform: none;
+}
+
 .project-link svg {
   width: 18px;
   height: 18px;
+}
+
+.arxiv-mark {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0;
 }
 
 .hf-mark {
