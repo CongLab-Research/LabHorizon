@@ -49,6 +49,8 @@ select {
 .sidebar {
   position: sticky;
   top: 0;
+  display: flex;
+  flex-direction: column;
   align-self: start;
   height: 100vh;
   min-height: 0;
@@ -170,6 +172,32 @@ select {
   display: grid;
   gap: 10px;
   margin-top: 28px;
+}
+
+.stanford-wordmark {
+  display: grid;
+  gap: 2px;
+  margin-top: auto;
+  padding-top: 26px;
+  border-top: 1px solid rgba(140, 21, 21, 0.72);
+  color: #ffffff;
+}
+
+.stanford-kicker {
+  color: #b83a4b;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.stanford-name {
+  color: #f4f6f6;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 31px;
+  font-weight: 700;
+  line-height: 0.95;
 }
 
 .nav-button,
@@ -956,6 +984,10 @@ select {
     overflow: visible;
     border-right: 0;
     border-bottom: 1px solid var(--line);
+  }
+
+  .stanford-wordmark {
+    margin-top: 24px;
   }
 
   .workspace {
