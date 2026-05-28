@@ -1,7 +1,11 @@
 <a id="top"></a>
 
 <div align="center">
-  <h1>LabHorizon</h1>
+
+# LabHorizon
+  
+<img src="./assets/stanford_logo.png"
+     height="40"/>
 </div>
 
 <div align="center">
