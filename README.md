@@ -14,7 +14,7 @@
 
 **Enhancing Laboratory 3D Perception and Long-Horizon Planning via Protocol-Conditioned Action Prediction**
 
-[Overview](#-overview) | [Datasets](#-datasets) | [Leaderboard](#-leaderboard) | [Agent](#-actor-simulator-selector-agent) | [Quick Start](#-quick-start) | [Citation](#-citation)
+[Overview](#-overview) | [Explorer](#-github-pages-explorer) | [Datasets](#-datasets) | [Leaderboard](#-leaderboard) | [Agent](#-actor-simulator-selector-agent) | [Quick Start](#-quick-start) | [Citation](#-citation)
 
 </div>
 
@@ -69,6 +69,19 @@ flowchart TD
     style L1 fill:#fef3c7,stroke:#d97706,stroke-width:2px
     style L2 fill:#f5f3ff,stroke:#7c3aed,stroke-width:2px
     style AST fill:#fee2e2,stroke:#dc2626,stroke-width:2px
+```
+
+## 🖥️ GitHub Pages Explorer
+
+The `docs/` directory contains a static GitHub Pages explorer for LabHorizon. It keeps the original dark visual style and interactive Three.js laboratory asset viewer, but now focuses on the two released data levels:
+
+- **Level 1:** real public test samples with three rendered asset views, historical actions, candidate next actions, reference reasoning, and gold next action.
+- **Level 2:** real public test samples with context, goal, constraints, action pool, and gold structured experimental action sequence.
+
+The page is fully static and can be previewed locally:
+
+```bash
+python -m http.server 8765 --directory docs
 ```
 
 ## 📦 Datasets

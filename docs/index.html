@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LabHorizon Explorer</title>
+    <meta
+      name="description"
+      content="LabHorizon GitHub Pages explorer for laboratory 3D asset perception and long-horizon protocol-conditioned action prediction."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.168.0/build/three.module.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Benchmark navigation">
+        <div class="brand-block">
+          <p class="eyebrow">LabHorizon</p>
+          <h1>Action Prediction Explorer</h1>
+          <p class="brand-copy">
+            A compact view of the public test data for laboratory 3D asset perception
+            and long-horizon protocol-conditioned action prediction. Each sample is
+            drawn from the released test split.
+          </p>
+        </div>
+        <nav id="section-nav" class="section-nav"></nav>
+      </aside>
+
+      <main class="workspace">
+        <header class="page-head">
+          <div class="page-copy">
+            <p id="section-kicker" class="section-kicker"></p>
+            <h2 id="section-title" class="section-title"></h2>
+            <p id="section-summary" class="section-summary"></p>
+          </div>
+          <div id="sample-tabs" class="sample-tabs" aria-label="Sample questions"></div>
+        </header>
+
+        <section class="main-grid">
+          <section class="feature-panel">
+            <div class="panel-head feature-head">
+              <div>
+                <p id="feature-kicker" class="panel-label"></p>
+                <h3 id="feature-title"></h3>
+              </div>
+              <button id="reset-view" class="ghost-button" type="button">Reset View</button>
+            </div>
+
+            <div id="single-view-stage" class="single-view-stage">
+              <div class="viewer-shell">
+                <div id="viewer" class="viewer"></div>
+                <div id="viewer-status" class="viewer-status">Loading 3D asset...</div>
+              </div>
+            </div>
+
+            <div id="multi-view-stage" class="multi-view-stage" hidden>
+              <article class="mini-view-card">
+                <div class="mini-view-meta">
+                  <p class="mini-view-kicker">Instrument 1</p>
+                  <h4 id="mini-title-0" class="mini-view-title"></h4>
+                </div>
+                <div class="mini-view-shell">
+                  <div id="mini-viewer-0" class="mini-viewer"></div>
+                  <div id="mini-status-0" class="mini-viewer-status">Loading 3D asset...</div>
+                </div>
+              </article>
+              <article class="mini-view-card">
+                <div class="mini-view-meta">
+                  <p class="mini-view-kicker">Instrument 2</p>
+                  <h4 id="mini-title-1" class="mini-view-title"></h4>
+                </div>
+                <div class="mini-view-shell">
+                  <div id="mini-viewer-1" class="mini-viewer"></div>
+                  <div id="mini-status-1" class="mini-viewer-status">Loading 3D asset...</div>
+                </div>
+              </article>
+              <article class="mini-view-card">
+                <div class="mini-view-meta">
+                  <p class="mini-view-kicker">Instrument 3</p>
+                  <h4 id="mini-title-2" class="mini-view-title"></h4>
+                </div>
+                <div class="mini-view-shell">
+                  <div id="mini-viewer-2" class="mini-viewer"></div>
+                  <div id="mini-status-2" class="mini-viewer-status">Loading 3D asset...</div>
+                </div>
+              </article>
+            </div>
+
+            <div id="video-stage" class="video-stage" hidden>
+              <div id="video-grid" class="video-grid"></div>
+            </div>
+
+            <div class="feature-foot">
+              <p id="feature-description" class="feature-description"></p>
+              <div id="feature-tags" class="feature-tags"></div>
+            </div>
+          </section>
+
+          <section class="detail-panel">
+            <div class="panel-head">
+              <p id="item-kind" class="panel-label"></p>
+              <h3 id="item-title"></h3>
+            </div>
+            <div id="item-body" class="item-body"></div>
+          </section>
+        </section>
+
+        <section id="level-note" class="level-note">
+          <div class="panel-head">
+            <p class="panel-label">Level Logic</p>
+            <h3>Left-Side View</h3>
+          </div>
+          <div id="level-note-body" class="level-note-body"></div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
