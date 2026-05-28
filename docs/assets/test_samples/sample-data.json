@@ -124,9 +124,9 @@
     {
       "dataset_index": 59,
       "modelKeys": [
-        "vortexMixer",
+        "thermalCycler",
         "centrifugeMini",
-        "tube15ml"
+        "vortexMixer"
       ],
       "title": "mRNA cleanup and nuclease digestion setup",
       "id": "LabHorizon-L2-test-000060",
