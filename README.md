@@ -18,7 +18,7 @@
 
 **Enhancing Laboratory 3D Perception and Long-Horizon Planning via Protocol-Conditioned Action Prediction**
 
-[Overview](#-overview) | [News](#-news) | [Explorer](#-github-pages-explorer) | [Datasets](#-datasets) | [Leaderboard](#-leaderboard) | [Agent](#-actor-simulator-selector-agent) | [Quick Start](#-quick-start) | [Citation](#-citation)
+[Overview](#-overview) | [News](#-news) | [Explorer](#-github-pages-explorer) | [Datasets](#-datasets) | [Leaderboard](#-leaderboard) | [Training](#-training-result) | [Agent](#-actor-simulator-selector-agent) | [Quick Start](#-quick-start) | [Citation](#-citation)
 
 </div>
 
@@ -36,6 +36,7 @@ Unlike general scientific QA or diagram-based multimodal benchmarks, LabHorizon 
 
 ## 📰 News
 
+- **2026-05-29:** Added the first LabHorizon supervised training result. A Qwen3.6-35B-A3B LoRA model trained on the 3,000 Level 1 and 3,000 Level 2 training samples improves Level 1 next-action accuracy from 0.475 to 0.665 and Level 2 Final Score from 0.2534 to 0.4532 over the direct Qwen3.6-35B-A3B baseline.
 - **2026-05-28:** Refreshed the public Website with a rocket favicon, direct GitHub / Hugging Face links, diversified demo assets, and updated real test examples. Level 1 now highlights thermal cycler and vortex mixer samples with upright checked asset views. Level 2 now shows plasmid DNA purification and mRNA cleanup samples with card-based constraints, available-input cards, expandable action-pool cards, and graph-like gold action sequences.
 - **2026-05-28:** Initialized the public LabHorizon repository and released the two Hugging Face datasets: Level 1 3D Asset Perception and Level 2 Protocol-Conditioned Planning, each with train and test splits.
 
@@ -172,6 +173,21 @@ The tables below report direct-prompting model results on the current `v20260510
 | 13 | GPT-5.5 | 0.2276 | 0.2092 | 0.2459 |
 | 14 | DeepSeek V4 Pro | 0.2135 | 0.1927 | 0.2342 |
 | 15 | Qwen3.5 9B | 0.1315 | 0.1359 | 0.1271 |
+
+## 🧠 Training Result
+
+LabHorizon is released with matched train and test splits, so it can evaluate models and also train domain models for laboratory action prediction. As an initial training experiment, we fine-tuned `Qwen/Qwen3.6-35B-A3B` with LoRA on all 6,000 training samples: 3,000 Level 1 multi-view asset next-action samples and 3,000 Level 2 protocol-conditioned action-sequence samples.
+
+This table is separated from the direct-prompting leaderboard because the LoRA model uses LabHorizon training data.
+
+| System | Level 1 Next Action Accuracy | Level 2 Action Sequence Similarity | Level 2 Parameter Accuracy | Level 2 Final Score | Level 2 Invalid |
+|:---|---:|---:|---:|---:|---:|
+| Direct Qwen3.6 35B-A3B | 0.475 | 0.2585 | 0.2483 | 0.2534 | 15 / 200 |
+| Qwen3.6 35B-A3B LoRA | **0.665** | **0.4485** | **0.4580** | **0.4532** | **0 / 200** |
+
+The result supports the **Optimizable Learning Loop** design. The trained model learns more stable protocol-conditioned action prediction: it improves Level 1 asset-to-action alignment, reduces invalid Level 2 outputs, and better preserves action order, parameters, and intermediate dependencies. It does not solve the benchmark completely: Level 2 exact-match recovery remains hard, so the Actor-Simulator-Selector agent is still useful for checking global state consistency, action granularity, and parameter constraints during inference.
+
+**Training case insight.** In a successful Level 2 organoid-preparation case, the LoRA model preserves two parallel sample branches, two `100 x g, 5 min, 4 C` centrifugation steps, branch-specific volume adjustment, and virus aliquot thawing on ice. This directly tests **Long-Horizon Planning** and **Real-World Protocol Alignment**. In a harder Golden Gate thermal-cycler case, the same trained model produces parseable actions but incorrectly expands a thermal-cycler program into local incubation calls and changes the required device-state order. This failure illustrates the remaining gap between local action familiarity and globally correct long-horizon experimental planning.
 
 ## 📏 Evaluation
 
