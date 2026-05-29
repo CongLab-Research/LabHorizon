@@ -178,8 +178,14 @@ The tables below report direct-prompting model results on the current `v20260510
 
 LabHorizon is released with matched train and test splits, so it can evaluate models and also train domain models for laboratory action prediction. As an initial system result, we train `Qwen/Qwen3.6-35B-A3B` on the 6,000 LabHorizon training samples and combine it with the Actor-Simulator-Selector framework.
 
+The table compares our trained+agents system with strong direct-prompting LLM baselines evaluated on the same test splits. Our best result is placed in the final row.
+
 | System | Level 1 Next Action Accuracy | Level 2 Action Sequence Similarity | Level 2 Parameter Accuracy | Level 2 Final Score |
 |:---|---:|---:|---:|---:|
+| Gemini 3.1 Pro Preview | 0.465 | 0.3195 | 0.3331 | 0.3263 |
+| Grok 4.3 | 0.555 | 0.3339 | 0.3148 | 0.3244 |
+| Kimi K2.6 | 0.550 | 0.2845 | 0.3456 | 0.3150 |
+| GPT-5.5 | 0.535 | 0.2092 | 0.2459 | 0.2276 |
 | Qwen3.6-35B-A3B(trained+agents) | **0.665** | **0.4485** | **0.4580** | **0.4532** |
 
 The result supports the **Optimizable Learning Loop** design. The trained+agents system provides more stable protocol-conditioned action prediction: it improves Level 1 asset-to-action alignment and better preserves action order, parameters, and intermediate dependencies. It does not solve the benchmark completely: Level 2 exact-match recovery remains hard, so continued agent refinement is still useful for checking global state consistency, action granularity, and parameter constraints during inference.
