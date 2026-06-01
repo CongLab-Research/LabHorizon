@@ -34,6 +34,14 @@
 
 Unlike general scientific QA or diagram-based multimodal benchmarks, LabHorizon frames laboratory reasoning as **protocol-conditioned action prediction**: a model must either select the next protocol-consistent action from visually grounded candidates or produce a structured long-horizon experimental action sequence.
 
+## 🏗️ Data Construction Pipeline
+
+LabHorizon is built from three resource layers: laboratory 3D assets, real-world protocol corpora, and reusable action templates. The pipeline then creates two aligned task levels: Level 1 links multi-view asset renderings and historical actions to a protocol-consistent next action, while Level 2 converts protocol windows into constrained action pools and gold experimental action sequences. Both levels pass through difficulty control, human review, and consistency checks before being released as matched train/test splits for benchmarking and learning. In implementation, automatic validators additionally check schemas, leakage, image availability, action-pool consistency, and variable dependencies.
+
+<p align="center">
+  <img src="assets/figure2_pipeline.png" alt="LabHorizon data construction pipeline" width="100%">
+</p>
+
 ## 📰 News
 
 - **2026-05-29:** Added the first LabHorizon trained+agents result. `Qwen3.6-35B-A3B(trained+agents)` reaches 0.665 Level 1 next-action accuracy and 0.4532 Level 2 Final Score.
