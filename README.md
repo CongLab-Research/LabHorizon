@@ -18,7 +18,7 @@
 
 **Enhancing Laboratory 3D Perception and Long-Horizon Planning via Protocol-Conditioned Action Prediction**
 
-[Overview](#-overview) | [News](#-news) | [Explorer](#-github-pages-explorer) | [Datasets](#-datasets) | [Leaderboard](#-leaderboard) | [Training](#-training-result) | [Agent](#-actor-simulator-selector-agent) | [Quick Start](#-quick-start) | [Citation](#-citation)
+[Overview](#-overview) | [News](#-news) | [Highlights](#-highlights) | [Datasets](#-datasets) | [Evaluation](#-evaluation) | [Leaderboard](#-leaderboard) | [Training](#-training-result) | [Agent](#-actor-simulator-selector-agent) | [Quick Start](#-quick-start) | [Citation](#-citation)
 
 </div>
 
@@ -34,13 +34,7 @@
 
 Unlike general scientific QA or diagram-based multimodal benchmarks, LabHorizon frames laboratory reasoning as **protocol-conditioned action prediction**: a model must either select the next protocol-consistent action from visually grounded candidates or produce a structured long-horizon experimental action sequence.
 
-## 🏗️ Data Construction Pipeline
-
-LabHorizon is built from three resource layers: laboratory 3D assets, real-world protocol corpora, and reusable action templates. The pipeline then creates two aligned task levels: Level 1 links multi-view asset renderings and historical actions to a protocol-consistent next action, while Level 2 converts protocol windows into constrained action pools and gold experimental action sequences. Both levels pass through difficulty control, human review, and consistency checks before being released as matched train/test splits for benchmarking and learning. In implementation, automatic validators additionally check schemas, leakage, image availability, action-pool consistency, and variable dependencies.
-
-<p align="center">
-  <img src="assets/figure2_pipeline.png" alt="LabHorizon data construction pipeline" width="100%">
-</p>
+The Website badge opens an interactive explorer with representative Level 1 and Level 2 test examples, including multi-view laboratory assets, candidate actions, constraints, action pools, and gold experimental action sequences.
 
 ## 📰 News
 
@@ -48,7 +42,7 @@ LabHorizon is built from three resource layers: laboratory 3D assets, real-world
 - **2026-05-28:** Refreshed the public Website with a rocket favicon, direct GitHub / Hugging Face links, diversified demo assets, and updated real test examples. Level 1 now highlights thermal cycler and vortex mixer samples with upright checked asset views. Level 2 now shows plasmid DNA purification and mRNA cleanup samples with card-based constraints, available-input cards, expandable action-pool cards, and graph-like gold action sequences.
 - **2026-05-28:** Initialized the public LabHorizon repository and released the two Hugging Face datasets: Level 1 3D Asset Perception and Level 2 Protocol-Conditioned Planning, each with train and test splits.
 
-### ✨ Highlights
+## ✨ Highlights
 
 <table>
 <tr>
@@ -65,57 +59,24 @@ LabHorizon is built from three resource layers: laboratory 3D assets, real-world
 </tr>
 </table>
 
-### 🧭 Data and Evaluation Flow
-
-```mermaid
-flowchart TD
-    P["Real-world protocol condition<br/>P"] --> L1
-    P --> L2
-    I["Multi-view laboratory asset<br/>I"] --> L1["Level 1<br/>protocol-conditioned multi-view asset action prediction"]
-    H["Historical actions<br/>h"] --> L1
-    C["Candidate next actions<br/>C"] --> L1
-    L1 --> O1["Reasoning + next action<br/>r, n"]
-    O1 --> M1["Next Action Accuracy"]
-
-    CTX["Context, goal, constraints<br/>context, g, R"] --> L2["Level 2<br/>protocol-conditioned action-pool long-horizon prediction"]
-    U["Available inputs<br/>U"] --> L2
-    AP["Action pool<br/>A"] --> L2
-    L2 --> O2["Structured action sequence<br/>s = (s1, ..., sT)"]
-    O2 --> AST["Python AST action parser<br/>calls, parameters, variables"]
-    AST --> M2["Action Sequence Similarity"]
-    AST --> M3["Parameter Accuracy"]
-    AST --> M4["Final Score"]
-
-    style P fill:#ecfccb,stroke:#65a30d,stroke-width:2px
-    style I fill:#e0f2fe,stroke:#0284c7,stroke-width:2px
-    style L1 fill:#fef3c7,stroke:#d97706,stroke-width:2px
-    style L2 fill:#f5f3ff,stroke:#7c3aed,stroke-width:2px
-    style AST fill:#fee2e2,stroke:#dc2626,stroke-width:2px
-```
-
-## 🖥️ GitHub Pages Explorer
-
-The `docs/` directory contains a static GitHub Pages explorer for LabHorizon. It keeps the original dark visual style and interactive Three.js laboratory asset viewer, but now focuses on the two released data levels. The current public demo samples are chosen for asset diversity and manually checked so the rendered assets are upright, readable, and not broken.
-
-- **Level 1:** real public test samples with thermal cycler and vortex mixer assets, three rendered asset views, historical actions, candidate next actions, card-based reference reasoning, and gold next action.
-- **Level 2:** real public test samples covering plasmid DNA purification and mRNA cleanup, with context, goal, card-based constraints, available-input cards, expandable action-pool cards, and a graph-like gold experimental action sequence.
-
-The sidebar also links directly to the GitHub repository and both Hugging Face dataset cards.
-
-The page is fully static and can be previewed locally:
-
-```bash
-python -m http.server 8765 --directory docs
-```
-
 ## 📦 Datasets
+
+### 🏗️ Data Construction Pipeline
+
+LabHorizon is built from three resource layers: laboratory 3D assets, real-world protocol corpora, and reusable action templates. The pipeline then creates two aligned task levels: Level 1 links multi-view asset renderings and historical actions to a protocol-consistent next action, while Level 2 converts protocol windows into constrained action pools and gold experimental action sequences. Both levels pass through difficulty control, human review, and consistency checks before being released as matched train/test splits for benchmarking and learning. In implementation, automatic validators additionally check schemas, leakage, image availability, action-pool consistency, and variable dependencies.
+
+<p align="center">
+  <img src="assets/figure2_pipeline.png" alt="LabHorizon data construction pipeline" width="100%">
+</p>
+
+### 📦 Released Splits
 
 | Level | Hugging Face Dataset | Input | Target | Metric |
 |:---|:---|:---|:---|:---|
 | **Level 1** | [LabHorizon-3D-Asset-Perception](https://huggingface.co/datasets/CongLab-Research/LabHorizon-3D-Asset-Perception) | Three asset views, historical actions, candidate next actions | Gold next action | Next-action accuracy |
 | **Level 2** | [LabHorizon-Protocol-Conditioned-Planning](https://huggingface.co/datasets/CongLab-Research/LabHorizon-Protocol-Conditioned-Planning) | Context, goal, constraints, available inputs, action pool | Gold experimental action sequence | Action Sequence Similarity, Parameter Accuracy |
 
-### 🔬 Level 1 Schema
+### 🔬 Level 1 Dataset
 
 | Column | Meaning |
 |:---|:---|
@@ -128,7 +89,7 @@ python -m http.server 8765 --directory docs
 | `asset_name` | Human-readable asset name for analysis. |
 | `asset_family` | Asset family label for distribution analysis. |
 
-### 🧪 Level 2 Schema
+### 🧪 Level 2 Dataset
 
 | Column | Meaning |
 |:---|:---|
@@ -140,6 +101,57 @@ python -m http.server 8765 --directory docs
 | `action_pool_names` | Names of available action-pool functions. |
 | `action_pool` | Python function definitions describing available laboratory actions. |
 | `gold_action_sequence` | Gold long-horizon experimental action sequence. |
+
+## 📏 Evaluation
+
+The evaluator keeps model interaction simple and model-agnostic. It sends natural-language prompts to an OpenAI-compatible chat completions endpoint, stores raw model outputs as JSONL, and computes metrics locally.
+
+### 🧭 Evaluation Flow
+
+```mermaid
+flowchart TD
+    S["LabHorizon test sample"] --> P["Prompt builder"]
+    P --> M["Model response"]
+    M --> L1["Level 1 parser<br/>Final Next Action"]
+    M --> L2["Level 2 AST parser<br/>actions, parameters, variables"]
+    L1 --> A["Next-action accuracy"]
+    L2 --> B["Action Sequence Similarity"]
+    L2 --> C["Parameter Accuracy"]
+    B --> F["Final Score"]
+    C --> F
+
+    style S fill:#f8fafc,stroke:#64748b,stroke-width:2px
+    style M fill:#e0f2fe,stroke:#0284c7,stroke-width:2px
+    style L1 fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    style L2 fill:#f5f3ff,stroke:#7c3aed,stroke-width:2px
+```
+
+### 🔬 Level 1: Next-Action Prediction
+
+Level 1 prompts contain asset images, historical actions, and candidate next actions. The model is asked to reason first and end with:
+
+```text
+Final Next Action: X
+```
+
+`X` may be a candidate letter or the exact candidate action. The evaluator maps the final response back to the candidate list and reports `next_action_accuracy`.
+
+### 🧪 Level 2: Protocol-Conditioned Planning
+
+Level 2 prompts contain a real-world experimental context, constraints, available inputs, and an action pool. The model may answer in natural language, but the structured action sequence must appear as Python-style function calls, usually inside a fenced code block:
+
+```python
+lysate = lyse_cells(sample=cell_pellet, buffer=lysis_buffer, duration_min=10)
+clarified = centrifuge(sample=lysate, speed_x_g=12000, duration_min=15)
+```
+
+The evaluator uses Python AST to extract action calls, keyword parameters, assigned intermediate variables, and variable dependencies. It reports:
+
+| Metric | What It Measures |
+|:---|:---|
+| `Action Sequence Similarity` | Whether predicted actions appear at the correct positions relative to the gold sequence. |
+| `Parameter Accuracy` | Whether aligned actions use correct parameter keys, values, raw inputs, and generated-variable dependencies. |
+| `Final Score` | The mean of Action Sequence Similarity and Parameter Accuracy. |
 
 ## 🏆 Leaderboard
 
@@ -199,37 +211,6 @@ The table compares our trained+agents system with strong direct-prompting LLM ba
 The result supports the **Optimizable Learning Loop** design. The trained+agents system provides more stable protocol-conditioned action prediction: it improves Level 1 asset-to-action alignment and better preserves action order, parameters, and intermediate dependencies. It does not solve the benchmark completely: Level 2 exact-match recovery remains hard, so continued agent refinement is still useful for checking global state consistency, action granularity, and parameter constraints during inference.
 
 **Training case insight.** In a successful Level 2 organoid-preparation case, the trained+agents system preserves two parallel sample branches, two `100 x g, 5 min, 4 C` centrifugation steps, branch-specific volume adjustment, and virus aliquot thawing on ice. This directly tests **Long-Horizon Planning** and **Real-World Protocol Alignment**. In a harder Golden Gate thermal-cycler case, the same system produces parseable actions but incorrectly expands a thermal-cycler program into local incubation calls and changes the required device-state order. This failure illustrates the remaining gap between local action familiarity and globally correct long-horizon experimental planning.
-
-## 📏 Evaluation
-
-The evaluator keeps model interaction simple and model-agnostic. It sends natural-language prompts to an OpenAI-compatible chat completions endpoint, stores raw model outputs as JSONL, and computes metrics locally.
-
-### 🔬 Level 1: Next-Action Prediction
-
-Level 1 prompts contain asset images, historical actions, and candidate next actions. The model is asked to reason first and end with:
-
-```text
-Final Next Action: X
-```
-
-`X` may be a candidate letter or the exact candidate action. The evaluator maps the final response back to the candidate list and reports `next_action_accuracy`.
-
-### 🧪 Level 2: Protocol-Conditioned Planning
-
-Level 2 prompts contain a real-world experimental context, constraints, available inputs, and an action pool. The model may answer in natural language, but the structured action sequence must appear as Python-style function calls, usually inside a fenced code block:
-
-```python
-lysate = lyse_cells(sample=cell_pellet, buffer=lysis_buffer, duration_min=10)
-clarified = centrifuge(sample=lysate, speed_x_g=12000, duration_min=15)
-```
-
-The evaluator uses Python AST to extract action calls, keyword parameters, assigned intermediate variables, and variable dependencies. It reports:
-
-| Metric | What It Measures |
-|:---|:---|
-| `Action Sequence Similarity` | Whether predicted actions appear at the correct positions relative to the gold sequence. |
-| `Parameter Accuracy` | Whether aligned actions use correct parameter keys, values, raw inputs, and generated-variable dependencies. |
-| `Final Score` | The mean of Action Sequence Similarity and Parameter Accuracy. |
 
 ## 🤖 Actor-Simulator-Selector Agent
 
