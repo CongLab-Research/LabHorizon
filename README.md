@@ -177,13 +177,13 @@ The tables below report direct-prompting model results on the current `v20260510
 | 11 | Qwen3.5 9B | 0.485 |
 | 12 | Gemini 3.5 Flash | 0.485 |
 | 13 | Qwen3.6 35B-A3B | 0.475 |
-| 14 | Gemini 3.1 Pro Preview | 0.465 |
+| 14 | Gemini 3.1 Pro | 0.465 |
 
 ### 🧪 Level 2: Protocol-Conditioned Planning
 
 | Rank | Model | Final Score | Action Sequence Similarity | Parameter Accuracy |
 |:---:|:---|---:|---:|---:|
-| 🥇 | Gemini 3.1 Pro Preview | 0.3263 | 0.3195 | 0.3331 |
+| 🥇 | Gemini 3.1 Pro | 0.3263 | 0.3195 | 0.3331 |
 | 🥈 | Grok 4.3 | 0.3244 | 0.3339 | 0.3148 |
 | 🥉 | Kimi K2.6 | 0.3150 | 0.2845 | 0.3456 |
 | 4 | Gemini 3.5 Flash | 0.3039 | 0.2686 | 0.3391 |
@@ -210,13 +210,13 @@ The table compares direct-prompting SOTA/baseline systems with our trained+agent
 | System | Level 1 Next Action Accuracy | Level 2 Action Sequence Similarity | Level 2 Parameter Accuracy | Level 2 Final Score |
 |:---|---:|---:|---:|---:|
 | Grok 4.3 | 0.555 | 0.3339 | 0.3148 | 0.3244 |
-| Gemini 3.1 Pro Preview | 0.465 | 0.3195 | 0.3331 | 0.3263 |
+| Gemini 3.1 Pro | 0.465 | 0.3195 | 0.3331 | 0.3263 |
 | GPT-5.5 | 0.535 | 0.2092 | 0.2459 | 0.2276 |
 | Kimi K2.6 | 0.550 | 0.2845 | 0.3456 | 0.3150 |
 | Qwen3.6-35B-A3B | 0.475 | 0.2585 | 0.2483 | 0.2534 |
 | Qwen3.6-35B-A3B(trained+agents) | **0.665** | **0.4485** | **0.4580** | **0.4532** |
 
-Agent setting: `Qwen3.6-35B-A3B(trained)` is used as Actor, and Gemini 3.1 Pro Preview is used as Simulator/Selector. The Simulator/Selector choice is the current setting and has not been exhaustively ablated.
+Agent setting: `Qwen3.6-35B-A3B(trained)` is used as Actor, and Gemini 3.1 Pro is used as Simulator/Selector. The Simulator/Selector choice is the current setting and has not been exhaustively ablated.
 
 The result supports the **Optimizable Learning Loop** design. The trained+agents system provides more stable protocol-conditioned action prediction: it improves Level 1 asset-to-action alignment and better preserves action order, parameters, and intermediate dependencies. It does not solve the benchmark completely: Level 2 exact-match recovery remains hard, so continued agent refinement is still useful for checking global state consistency, action granularity, and parameter constraints during inference.
 
