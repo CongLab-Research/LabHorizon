@@ -12,9 +12,10 @@
 
 [![Website](https://img.shields.io/badge/%F0%9F%9A%80%20Website-LabHorizon-00c2a8)](https://conglab-research.github.io/LabHorizon/)&nbsp;
 ![arXiv](https://img.shields.io/badge/arXiv-coming%20soon-b31b1b?logo=arxiv&logoColor=white)&nbsp;
-[![GitHub](https://img.shields.io/badge/GitHub-LabHorizon-000000?logo=github&logoColor=white)](https://github.com/CongLab-Research/LabHorizon)&nbsp;
-[![HF Level 1](https://img.shields.io/badge/%F0%9F%A4%97%20Dataset-Level%201%203D%20Assets-blue)](https://huggingface.co/datasets/CongLab-Research/LabHorizon-3D-Asset-Perception)&nbsp;
-[![HF Level 2](https://img.shields.io/badge/%F0%9F%A4%97%20Dataset-Level%202%20Planning-purple)](https://huggingface.co/datasets/CongLab-Research/LabHorizon-Protocol-Conditioned-Planning)
+[![Code](https://img.shields.io/badge/Code-LabHorizon-000000?logo=github&logoColor=white)](https://github.com/CongLab-Research/LabHorizon)&nbsp;
+[![Data L1](https://img.shields.io/badge/%F0%9F%A4%97%20Data-L1-blue)](https://huggingface.co/datasets/CongLab-Research/LabHorizon-3D-Asset-Perception)&nbsp;
+[![Data L2](https://img.shields.io/badge/%F0%9F%A4%97%20Data-L2-purple)](https://huggingface.co/datasets/CongLab-Research/LabHorizon-Protocol-Conditioned-Planning)&nbsp;
+[![Model](https://img.shields.io/badge/%F0%9F%A4%97%20Model-LoRA-orange)](https://huggingface.co/CongLab-Research/LabHorizon-Model)
 
 **Enhancing Laboratory 3D Perception and Long-Horizon Planning via Protocol-Conditioned Action Prediction**
 
@@ -38,7 +39,7 @@ The Website badge opens an interactive explorer with representative Level 1 and 
 
 ## 📰 News
 
-- **2026-05-29:** Added the first LabHorizon trained+agents result. `Qwen3.6-35B-A3B(trained+agents)` reaches 0.665 Level 1 next-action accuracy and 0.4532 Level 2 Final Score.
+- **2026-05-29:** Added the first LabHorizon trained+agents result. `Qwen3.6-35B-A3B(trained+agents*)` reaches 0.665 Level 1 next-action accuracy and 0.4532 Level 2 Final Score.
 - **2026-05-28:** Refreshed the public Website with a rocket favicon, direct GitHub / Hugging Face links, diversified demo assets, and updated real test examples. Level 1 now highlights thermal cycler and vortex mixer samples with upright checked asset views. Level 2 now shows plasmid DNA purification and mRNA cleanup samples with card-based constraints, available-input cards, expandable action-pool cards, and graph-like gold action sequences.
 - **2026-05-28:** Initialized the public LabHorizon repository and released the two Hugging Face datasets: Level 1 3D Asset Perception and Level 2 Protocol-Conditioned Planning, each with train and test splits.
 
@@ -165,14 +166,16 @@ The tables below report direct-prompting model results on the current `v20260510
 | 🥈 | Kimi K2.6 | 0.550 |
 | 🥉 | GPT-5.5 | 0.535 |
 | 4 | GPT-5.4 | 0.520 |
-| 5 | Qwen3.6 Plus | 0.505 |
-| 6 | Claude Opus 4.7 | 0.500 |
-| 7 | Qwen3.5 35B-A3B | 0.495 |
-| 8 | MiMo V2.5 | 0.495 |
-| 9 | Qwen3.5 9B | 0.485 |
-| 10 | Gemini 3.5 Flash | 0.485 |
-| 11 | Qwen3.6 35B-A3B | 0.475 |
-| 12 | Gemini 3.1 Pro Preview | 0.465 |
+| 5 | Claude Opus 4.8 | 0.515 |
+| 6 | MiniMax M3 | 0.510 |
+| 7 | Qwen3.6 Plus | 0.505 |
+| 8 | Claude Opus 4.7 | 0.500 |
+| 9 | Qwen3.5 35B-A3B | 0.495 |
+| 10 | MiMo V2.5 | 0.495 |
+| 11 | Qwen3.5 9B | 0.485 |
+| 12 | Gemini 3.5 Flash | 0.485 |
+| 13 | Qwen3.6 35B-A3B | 0.475 |
+| 14 | Gemini 3.1 Pro Preview | 0.465 |
 
 ### 🧪 Level 2: Protocol-Conditioned Planning
 
@@ -183,30 +186,35 @@ The tables below report direct-prompting model results on the current `v20260510
 | 🥉 | Kimi K2.6 | 0.3150 | 0.2845 | 0.3456 |
 | 4 | Gemini 3.5 Flash | 0.3039 | 0.2686 | 0.3391 |
 | 5 | Qwen3.7 Max | 0.3003 | 0.2905 | 0.3102 |
-| 6 | Claude Opus 4.7 | 0.2737 | 0.2619 | 0.2856 |
-| 7 | GPT-5.4 | 0.2715 | 0.2191 | 0.3239 |
-| 8 | Qwen3.6 35B-A3B | 0.2534 | 0.2585 | 0.2483 |
-| 9 | Qwen3.6 Plus | 0.2526 | 0.2264 | 0.2787 |
-| 10 | MiMo V2.5 | 0.2491 | 0.2269 | 0.2713 |
-| 11 | GLM 5.1 | 0.2413 | 0.2307 | 0.2519 |
-| 12 | Qwen3.5 35B-A3B | 0.2391 | 0.2385 | 0.2398 |
-| 13 | GPT-5.5 | 0.2276 | 0.2092 | 0.2459 |
-| 14 | DeepSeek V4 Pro | 0.2135 | 0.1927 | 0.2342 |
-| 15 | Qwen3.5 9B | 0.1315 | 0.1359 | 0.1271 |
+| 6 | MiniMax M3 | 0.2954 | 0.2812 | 0.3095 |
+| 7 | Claude Opus 4.8 | 0.2911 | 0.2756 | 0.3066 |
+| 8 | Claude Opus 4.7 | 0.2737 | 0.2619 | 0.2856 |
+| 9 | GPT-5.4 | 0.2715 | 0.2191 | 0.3239 |
+| 10 | Qwen3.6 35B-A3B | 0.2534 | 0.2585 | 0.2483 |
+| 11 | Qwen3.6 Plus | 0.2526 | 0.2264 | 0.2787 |
+| 12 | MiMo V2.5 | 0.2491 | 0.2269 | 0.2713 |
+| 13 | GLM 5.1 | 0.2413 | 0.2307 | 0.2519 |
+| 14 | Qwen3.5 35B-A3B | 0.2391 | 0.2385 | 0.2398 |
+| 15 | GPT-5.5 | 0.2276 | 0.2092 | 0.2459 |
+| 16 | DeepSeek V4 Pro | 0.2135 | 0.1927 | 0.2342 |
+| 17 | Qwen3.5 9B | 0.1315 | 0.1359 | 0.1271 |
 
 ## 🧠 Training Result
 
 LabHorizon is released with matched train and test splits, so it can evaluate models and also train domain models for laboratory action prediction. As an initial system result, we train `Qwen/Qwen3.6-35B-A3B` on the 6,000 LabHorizon training samples and combine it with the Actor-Simulator-Selector framework.
 
-The table compares our trained+agents system with strong direct-prompting LLM baselines evaluated on the same test splits. Our best result is placed in the final row.
+The table compares direct-prompting SOTA/baseline systems with our trained+agents system on the same test splits. Our best result is placed in the final row.
 
 | System | Level 1 Next Action Accuracy | Level 2 Action Sequence Similarity | Level 2 Parameter Accuracy | Level 2 Final Score |
 |:---|---:|---:|---:|---:|
-| Gemini 3.1 Pro Preview | 0.465 | 0.3195 | 0.3331 | 0.3263 |
 | Grok 4.3 | 0.555 | 0.3339 | 0.3148 | 0.3244 |
-| Kimi K2.6 | 0.550 | 0.2845 | 0.3456 | 0.3150 |
+| Gemini 3.1 Pro Preview | 0.465 | 0.3195 | 0.3331 | 0.3263 |
 | GPT-5.5 | 0.535 | 0.2092 | 0.2459 | 0.2276 |
-| Qwen3.6-35B-A3B(trained+agents) | **0.665** | **0.4485** | **0.4580** | **0.4532** |
+| Kimi K2.6 | 0.550 | 0.2845 | 0.3456 | 0.3150 |
+| Qwen3.6-35B-A3B | 0.475 | 0.2585 | 0.2483 | 0.2534 |
+| Qwen3.6-35B-A3B(trained+agents*) | **0.665** | **0.4485** | **0.4580** | **0.4532** |
+
+`*` uses `Qwen3.6-35B-A3B(trained)` as Actor and Gemini 3.1 Pro Preview as Simulator/Selector. The Simulator/Selector choice is the current setting and has not been exhaustively ablated.
 
 The result supports the **Optimizable Learning Loop** design. The trained+agents system provides more stable protocol-conditioned action prediction: it improves Level 1 asset-to-action alignment and better preserves action order, parameters, and intermediate dependencies. It does not solve the benchmark completely: Level 2 exact-match recovery remains hard, so continued agent refinement is still useful for checking global state consistency, action granularity, and parameter constraints during inference.
 
