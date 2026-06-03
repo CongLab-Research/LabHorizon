@@ -226,21 +226,11 @@ The result supports the **Optimizable Learning Loop** design. The trained+agents
 
 LabHorizon includes a bounded **Actor-Simulator-Selector** agent for protocol-conditioned action prediction. The agent is not an open-ended ReAct loop and does not use a physical simulator. It wraps model sampling with a structured experimental state checker:
 
-```mermaid
-flowchart LR
-    T["LabHorizon task<br/>Level 1 or Level 2"] --> Actor["Actor<br/>sample candidate actions"]
-    T --> Sim0["Simulator<br/>construct current and target states"]
-    Actor --> C["Candidate next actions<br/>or action sequences"]
-    Sim0 --> Sim1["Simulator<br/>predict candidate state transitions"]
-    C --> Sim1
-    Sim1 --> Selector["Selector<br/>rank candidates by target-state fit"]
-    Selector --> Out["Final prediction<br/>next action or action sequence"]
+<p align="center">
+  <img src="assets/figure3_agent.png" alt="Actor-Simulator-Selector agent pipeline" width="100%">
+</p>
 
-    style Actor fill:#e0f2fe,stroke:#0284c7,stroke-width:2px
-    style Sim0 fill:#fef3c7,stroke:#d97706,stroke-width:2px
-    style Sim1 fill:#fef3c7,stroke:#d97706,stroke-width:2px
-    style Selector fill:#f5f3ff,stroke:#7c3aed,stroke-width:2px
-```
+The left side of the pipeline shows the two task inputs: Level 1 uses multi-view asset images, historical actions, and candidate next actions, while Level 2 uses context, constraints, available inputs, and an action pool. The trained Actor produces reasoning and candidate action predictions. The Simulator builds current and target symbolic protocol states, applies each candidate action, and predicts reagent/instrument state transitions. The Selector compares candidate-state pairs and returns the selected action prediction, which is then evaluated by Level 1 next-action accuracy or Level 2 AST-based action-sequence and parameter metrics.
 
 The implementation in `agents/` uses the same public dataset schema and evaluation contracts as `evaluation/`:
 
