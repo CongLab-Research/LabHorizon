@@ -13,9 +13,9 @@
 [![Website](https://img.shields.io/badge/%F0%9F%9A%80%20Website-LabHorizon-00c2a8)](https://conglab-research.github.io/LabHorizon/)&nbsp;
 ![arXiv](https://img.shields.io/badge/arXiv-coming%20soon-b31b1b?logo=arxiv&logoColor=white)&nbsp;
 [![Code](https://img.shields.io/badge/Code-LabHorizon-000000?logo=github&logoColor=white)](https://github.com/CongLab-Research/LabHorizon)&nbsp;
-[![Data L1](https://img.shields.io/badge/%F0%9F%A4%97%20Data-L1-blue)](https://huggingface.co/datasets/CongLab-Research/LabHorizon-3D-Asset-Perception)&nbsp;
-[![Data L2](https://img.shields.io/badge/%F0%9F%A4%97%20Data-L2-purple)](https://huggingface.co/datasets/CongLab-Research/LabHorizon-Protocol-Conditioned-Planning)&nbsp;
-[![Model](https://img.shields.io/badge/%F0%9F%A4%97%20Model-LoRA-orange)](https://huggingface.co/CongLab-Research/LabHorizon-Model)
+[![Data L1 3D Asset](https://img.shields.io/badge/%F0%9F%A4%97%20Data-L1%203D%20Asset-blue)](https://huggingface.co/datasets/CongLab-Research/LabHorizon-3D-Asset-Perception)&nbsp;
+[![Data L2 Protocol](https://img.shields.io/badge/%F0%9F%A4%97%20Data-L2%20Protocol-purple)](https://huggingface.co/datasets/CongLab-Research/LabHorizon-Protocol-Conditioned-Planning)&nbsp;
+[![Model](https://img.shields.io/badge/%F0%9F%A4%97%20Model-Qwen3.6-orange)](https://huggingface.co/CongLab-Research/LabHorizon-Model)
 
 **Enhancing Laboratory 3D Perception and Long-Horizon Planning via Protocol-Conditioned Action Prediction**
 
@@ -39,7 +39,9 @@ The Website badge opens an interactive explorer with representative Level 1 and 
 
 ## 📰 News
 
-- **2026-05-29:** Added the first LabHorizon trained+agents result. `Qwen3.6-35B-A3B(trained+agents*)` reaches 0.665 Level 1 next-action accuracy and 0.4532 Level 2 Final Score.
+- **2026-06-03:** Released the LabHorizon LoRA model weights on Hugging Face as `CongLab-Research/LabHorizon-Model`.
+- **2026-06-03:** Added direct-prompting evaluations for Claude Opus 4.8 and MiniMax M3 to the Level 1 and Level 2 leaderboards.
+- **2026-05-29:** Added the first LabHorizon trained+agents result. `Qwen3.6-35B-A3B(trained+agents)` reaches 0.665 Level 1 next-action accuracy and 0.4532 Level 2 Final Score.
 - **2026-05-28:** Refreshed the public Website with a rocket favicon, direct GitHub / Hugging Face links, diversified demo assets, and updated real test examples. Level 1 now highlights thermal cycler and vortex mixer samples with upright checked asset views. Level 2 now shows plasmid DNA purification and mRNA cleanup samples with card-based constraints, available-input cards, expandable action-pool cards, and graph-like gold action sequences.
 - **2026-05-28:** Initialized the public LabHorizon repository and released the two Hugging Face datasets: Level 1 3D Asset Perception and Level 2 Protocol-Conditioned Planning, each with train and test splits.
 
@@ -212,9 +214,9 @@ The table compares direct-prompting SOTA/baseline systems with our trained+agent
 | GPT-5.5 | 0.535 | 0.2092 | 0.2459 | 0.2276 |
 | Kimi K2.6 | 0.550 | 0.2845 | 0.3456 | 0.3150 |
 | Qwen3.6-35B-A3B | 0.475 | 0.2585 | 0.2483 | 0.2534 |
-| Qwen3.6-35B-A3B(trained+agents*) | **0.665** | **0.4485** | **0.4580** | **0.4532** |
+| Qwen3.6-35B-A3B(trained+agents) | **0.665** | **0.4485** | **0.4580** | **0.4532** |
 
-`*` uses `Qwen3.6-35B-A3B(trained)` as Actor and Gemini 3.1 Pro Preview as Simulator/Selector. The Simulator/Selector choice is the current setting and has not been exhaustively ablated.
+Agent setting: `Qwen3.6-35B-A3B(trained)` is used as Actor, and Gemini 3.1 Pro Preview is used as Simulator/Selector. The Simulator/Selector choice is the current setting and has not been exhaustively ablated.
 
 The result supports the **Optimizable Learning Loop** design. The trained+agents system provides more stable protocol-conditioned action prediction: it improves Level 1 asset-to-action alignment and better preserves action order, parameters, and intermediate dependencies. It does not solve the benchmark completely: Level 2 exact-match recovery remains hard, so continued agent refinement is still useful for checking global state consistency, action granularity, and parameter constraints during inference.
 
