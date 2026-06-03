@@ -41,7 +41,7 @@ The Website badge opens an interactive explorer with representative Level 1 and 
 
 - **2026-06-03:** Released the LabHorizon LoRA model weights on Hugging Face as `CongLab-Research/LabHorizon-Model`.
 - **2026-06-03:** Added direct-prompting evaluations for Claude Opus 4.8 and MiniMax M3 to the Level 1 and Level 2 leaderboards.
-- **2026-05-29:** Added the first LabHorizon trained+agents result. `Qwen3.6-35B-A3B(trained+agents)` reaches 0.665 Level 1 next-action accuracy and 0.4532 Level 2 Final Score.
+- **2026-05-29:** Added the first LabHorizon trained+agents result. `Qwen3.6-35B-A3B(trained+agents)` reaches 0.665 Level 1 next-action accuracy and 0.4532 L2 Final Score.
 - **2026-05-28:** Refreshed the public Website with a rocket favicon, direct GitHub / Hugging Face links, diversified demo assets, and updated real test examples. Level 1 now highlights thermal cycler and vortex mixer samples with upright checked asset views. Level 2 now shows plasmid DNA purification and mRNA cleanup samples with card-based constraints, available-input cards, expandable action-pool cards, and graph-like gold action sequences.
 - **2026-05-28:** Initialized the public LabHorizon repository and released the two Hugging Face datasets: Level 1 3D Asset Perception and Level 2 Protocol-Conditioned Planning, each with train and test splits.
 
@@ -77,7 +77,7 @@ LabHorizon is built from three resource layers: laboratory 3D assets, real-world
 | Level | Hugging Face Dataset | Input | Target | Metric |
 |:---|:---|:---|:---|:---|
 | **Level 1** | [LabHorizon-3D-Asset-Perception](https://huggingface.co/datasets/CongLab-Research/LabHorizon-3D-Asset-Perception) | Three asset views, historical actions, candidate next actions | Gold next action | Next-action accuracy |
-| **Level 2** | [LabHorizon-Protocol-Conditioned-Planning](https://huggingface.co/datasets/CongLab-Research/LabHorizon-Protocol-Conditioned-Planning) | Context, goal, constraints, available inputs, action pool | Gold experimental action sequence | Action Sequence Similarity, Parameter Accuracy |
+| **Level 2** | [LabHorizon-Protocol-Conditioned-Planning](https://huggingface.co/datasets/CongLab-Research/LabHorizon-Protocol-Conditioned-Planning) | Context, goal, constraints, available inputs, action pool | Gold experimental action sequence | L2 Action Sequence Similarity, L2 Parameter Accuracy |
 
 ### 🔬 Level 1 Dataset
 
@@ -118,9 +118,9 @@ flowchart TD
     M --> L1["Level 1 parser<br/>Final Next Action"]
     M --> L2["Level 2 AST parser<br/>actions, parameters, variables"]
     L1 --> A["Next-action accuracy"]
-    L2 --> B["Action Sequence Similarity"]
-    L2 --> C["Parameter Accuracy"]
-    B --> F["Final Score"]
+    L2 --> B["L2 Action Sequence Similarity"]
+    L2 --> C["L2 Parameter Accuracy"]
+    B --> F["L2 Final Score"]
     C --> F
 
     style S fill:#f8fafc,stroke:#64748b,stroke-width:2px
@@ -152,13 +152,13 @@ The evaluator uses Python AST to extract action calls, keyword parameters, assig
 
 | Metric | What It Measures |
 |:---|:---|
-| `Action Sequence Similarity` | Whether predicted actions appear at the correct positions relative to the gold sequence. |
-| `Parameter Accuracy` | Whether aligned actions use correct parameter keys, values, raw inputs, and generated-variable dependencies. |
-| `Final Score` | The mean of Action Sequence Similarity and Parameter Accuracy. |
+| `L2 Action Sequence Similarity` | Whether predicted actions appear at the correct positions relative to the gold sequence. |
+| `L2 Parameter Accuracy` | Whether aligned actions use correct parameter keys, values, raw inputs, and generated-variable dependencies. |
+| `L2 Final Score` | The mean of L2 Action Sequence Similarity and L2 Parameter Accuracy. |
 
 ## 🏆 Leaderboard
 
-The tables below report direct-prompting model results on the current `v20260510-repaired` 200-sample test split. Level 1 is sorted by `Next Action Accuracy`; Level 2 is sorted by `Final Score`.
+The tables below report direct-prompting model results on the current `v20260510-repaired` 200-sample test split. Level 1 is sorted by `Next Action Accuracy`; Level 2 is sorted by `L2 Final Score`.
 
 ### 🔬 Level 1: 3D Asset Perception
 
@@ -181,7 +181,7 @@ The tables below report direct-prompting model results on the current `v20260510
 
 ### 🧪 Level 2: Protocol-Conditioned Planning
 
-| Rank | Model | Final Score | Action Sequence Similarity | Parameter Accuracy |
+| Rank | Model | L2 Final Score | L2 Action Sequence Similarity | L2 Parameter Accuracy |
 |:---:|:---|---:|---:|---:|
 | 🥇 | Gemini 3.1 Pro | 0.3263 | 0.3195 | 0.3331 |
 | 🥈 | Grok 4.3 | 0.3244 | 0.3339 | 0.3148 |
@@ -207,7 +207,7 @@ LabHorizon is released with matched train and test splits, so it can evaluate mo
 
 The table compares direct-prompting SOTA/baseline systems with our trained+agents system on the same test splits. Our best result is placed in the final row.
 
-| System | Level 1 Next Action Accuracy | Level 2 Action Sequence Similarity | Level 2 Parameter Accuracy | Level 2 Final Score |
+| System | Level 1 Next Action Accuracy | L2 Action Sequence Similarity | L2 Parameter Accuracy | L2 Final Score |
 |:---|---:|---:|---:|---:|
 | Grok 4.3 | 0.555 | 0.3339 | 0.3148 | 0.3244 |
 | Gemini 3.1 Pro | 0.465 | 0.3195 | 0.3331 | 0.3263 |
@@ -375,7 +375,7 @@ LabHorizon/
 │   │   └── evaluate.py           # Level 1 evaluation entry point
 │   └── level2/
 │       ├── prompts.py            # Protocol-conditioned planning prompts
-│       ├── metrics.py            # AST parsing and ASS / PA metrics
+│       ├── metrics.py            # AST parsing and L2 ASS / L2 PA metrics
 │       └── evaluate.py           # Level 2 evaluation entry point
 ├── agents/
 │   ├── run_agent.py              # Actor-Simulator-Selector CLI
