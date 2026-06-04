@@ -10,12 +10,12 @@
 
 <div align="center">
 
-[![Website](https://img.shields.io/badge/%F0%9F%9A%80%20Website-LabHorizon-00c2a8)](https://conglab-research.github.io/LabHorizon/)&nbsp;
+[![Website](https://img.shields.io/badge/%F0%9F%9A%80%20Website-LabHorizon-00c2a8)](https://stanford-conglab.github.io/LabHorizon/)&nbsp;
 ![arXiv](https://img.shields.io/badge/arXiv-coming%20soon-b31b1b?logo=arxiv&logoColor=white)&nbsp;
-[![Code](https://img.shields.io/badge/Code-LabHorizon-000000?logo=github&logoColor=white)](https://github.com/CongLab-Research/LabHorizon)&nbsp;
-[![Data L1 3D Asset](https://img.shields.io/badge/%F0%9F%A4%97%20Data-L1%203D%20Asset-blue)](https://huggingface.co/datasets/CongLab-Research/LabHorizon-3D-Asset-Perception)&nbsp;
-[![Data L2 Protocol](https://img.shields.io/badge/%F0%9F%A4%97%20Data-L2%20Protocol-purple)](https://huggingface.co/datasets/CongLab-Research/LabHorizon-Protocol-Conditioned-Planning)&nbsp;
-[![Model](https://img.shields.io/badge/%F0%9F%A4%97%20Model-Qwen3.6-orange)](https://huggingface.co/CongLab-Research/LabHorizon-Model)
+[![Code](https://img.shields.io/badge/Code-LabHorizon-000000?logo=github&logoColor=white)](https://github.com/Stanford-CongLab/LabHorizon)&nbsp;
+[![Data L1 3D Asset](https://img.shields.io/badge/%F0%9F%A4%97%20Data-L1%203D%20Asset-blue)](https://huggingface.co/datasets/Stanford-CongLab/LabHorizon-3D-Asset-Perception)&nbsp;
+[![Data L2 Protocol](https://img.shields.io/badge/%F0%9F%A4%97%20Data-L2%20Protocol-purple)](https://huggingface.co/datasets/Stanford-CongLab/LabHorizon-Protocol-Conditioned-Planning)&nbsp;
+[![Model](https://img.shields.io/badge/%F0%9F%A4%97%20Model-Qwen3.6-orange)](https://huggingface.co/Stanford-CongLab/LabHorizon-Model)
 
 **Enhancing Laboratory 3D Perception and Long-Horizon Planning via Protocol-Conditioned Action Prediction**
 
@@ -39,7 +39,7 @@ The Website badge opens an interactive explorer with representative Level 1 and 
 
 ## 📰 News
 
-- **2026-06-03:** Released the LabHorizon LoRA model weights on Hugging Face as `CongLab-Research/LabHorizon-Model`.
+- **2026-06-03:** Released the LabHorizon LoRA model weights on Hugging Face as `Stanford-CongLab/LabHorizon-Model`.
 - **2026-06-03:** Added direct-prompting evaluations for Claude Opus 4.8 and MiniMax M3 to the Level 1 and Level 2 leaderboards.
 - **2026-05-29:** Added the first LabHorizon trained+agents result. `Qwen3.6-35B-A3B(trained+agents)` reaches 0.665 Level 1 next-action accuracy and 0.4532 L2 Final Score.
 - **2026-05-28:** Refreshed the public Website with a rocket favicon, direct GitHub / Hugging Face links, diversified demo assets, and updated real test examples. Level 1 now highlights thermal cycler and vortex mixer samples with upright checked asset views. Level 2 now shows plasmid DNA purification and mRNA cleanup samples with card-based constraints, available-input cards, expandable action-pool cards, and graph-like gold action sequences.
@@ -76,8 +76,8 @@ LabHorizon is built from three resource layers: laboratory 3D assets, real-world
 
 | Level | Hugging Face Dataset | Input | Target | Metric |
 |:---|:---|:---|:---|:---|
-| **Level 1** | [LabHorizon-3D-Asset-Perception](https://huggingface.co/datasets/CongLab-Research/LabHorizon-3D-Asset-Perception) | Three asset views, historical actions, candidate next actions | Gold next action | Next-action accuracy |
-| **Level 2** | [LabHorizon-Protocol-Conditioned-Planning](https://huggingface.co/datasets/CongLab-Research/LabHorizon-Protocol-Conditioned-Planning) | Context, goal, constraints, available inputs, action pool | Gold experimental action sequence | L2 Action Sequence Similarity, L2 Parameter Accuracy |
+| **Level 1** | [LabHorizon-3D-Asset-Perception](https://huggingface.co/datasets/Stanford-CongLab/LabHorizon-3D-Asset-Perception) | Three asset views, historical actions, candidate next actions | Gold next action | Next-action accuracy |
+| **Level 2** | [LabHorizon-Protocol-Conditioned-Planning](https://huggingface.co/datasets/Stanford-CongLab/LabHorizon-Protocol-Conditioned-Planning) | Context, goal, constraints, available inputs, action pool | Gold experimental action sequence | L2 Action Sequence Similarity, L2 Parameter Accuracy |
 
 ### 🔬 Level 1 Dataset
 
@@ -247,13 +247,13 @@ The recommended local layout keeps code and datasets as sibling repositories:
 ```bash
 mkdir -p LabHorizon/code LabHorizon/data
 
-git clone https://github.com/CongLab-Research/LabHorizon \
+git clone https://github.com/Stanford-CongLab/LabHorizon \
   LabHorizon/code/LabHorizon
 
-git clone https://huggingface.co/datasets/CongLab-Research/LabHorizon-3D-Asset-Perception \
+git clone https://huggingface.co/datasets/Stanford-CongLab/LabHorizon-3D-Asset-Perception \
   LabHorizon/data/LabHorizon-3D-Asset-Perception
 
-git clone https://huggingface.co/datasets/CongLab-Research/LabHorizon-Protocol-Conditioned-Planning \
+git clone https://huggingface.co/datasets/Stanford-CongLab/LabHorizon-Protocol-Conditioned-Planning \
   LabHorizon/data/LabHorizon-Protocol-Conditioned-Planning
 
 cd LabHorizon/code/LabHorizon
@@ -396,11 +396,11 @@ Please open a GitHub issue for reproducibility questions, dataset access problem
 
 ## ⭐ Star History
 
-<a href="https://www.star-history.com/?repos=CongLab-Research%2FLabHorizon&type=date&legend=top-left">
+<a href="https://www.star-history.com/?repos=Stanford-CongLab%2FLabHorizon&type=date&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=CongLab-Research/LabHorizon&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=CongLab-Research/LabHorizon&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/image?repos=CongLab-Research/LabHorizon&type=date&legend=top-left" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=Stanford-CongLab/LabHorizon&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=Stanford-CongLab/LabHorizon&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/image?repos=Stanford-CongLab/LabHorizon&type=date&legend=top-left" />
  </picture>
 </a>
 
