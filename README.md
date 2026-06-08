@@ -17,7 +17,7 @@
 [![Data L2 Protocol](https://img.shields.io/badge/%F0%9F%A4%97%20Data-L2%20Protocol-purple)](https://huggingface.co/datasets/Stanford-CongLab/LabHorizon-Protocol-Conditioned-Planning)&nbsp;
 [![Model](https://img.shields.io/badge/%F0%9F%A4%97%20Model-Qwen3.6-orange)](https://huggingface.co/Stanford-CongLab/LabHorizon-Model)
 
-**Enhancing Laboratory 3D Perception and Long-Horizon Planning via Protocol-Conditioned Action Prediction**
+**Enhancing Laboratory 3D Perception and Long-Horizon Planning via Protocol-Aligned Action Prediction**
 
 [Overview](#-overview) | [News](#-news) | [Highlights](#-highlights) | [Datasets](#-datasets) | [Evaluation](#-evaluation) | [Leaderboard](#-leaderboard) | [Training](#-training-result) | [Agent](#-actor-simulator-selector-agent) | [Quick Start](#-quick-start) | [Citation](#-citation)
 
@@ -33,7 +33,7 @@
 
 **LabHorizon** is a data and evaluation suite for laboratory action prediction. It studies how models connect multi-view laboratory assets, real-world experimental context, and long-horizon action structure before they can support reliable AI scientist workflows.
 
-Unlike general scientific QA or diagram-based multimodal benchmarks, LabHorizon frames laboratory reasoning as **protocol-conditioned action prediction**: a model must either select the next protocol-consistent action from visually grounded candidates or produce a structured long-horizon experimental action sequence.
+Unlike general scientific QA or diagram-based multimodal benchmarks, LabHorizon frames laboratory reasoning as **protocol-aligned action prediction**: a model must either select the next protocol-consistent action from visually grounded candidates or produce a structured long-horizon experimental action sequence.
 
 The Website badge opens an interactive explorer with representative Level 1 and Level 2 test examples, including multi-view laboratory assets, candidate actions, constraints, action pools, and gold experimental action sequences.
 
@@ -43,7 +43,7 @@ The Website badge opens an interactive explorer with representative Level 1 and 
 - **2026-06-03:** Added direct-prompting evaluations for Claude Opus 4.8 and MiniMax M3 to the Level 1 and Level 2 leaderboards.
 - **2026-05-29:** Added the first LabHorizon trained+agents result. `Qwen3.6-35B-A3B(trained+agents)` reaches 0.665 Level 1 next-action accuracy and 0.4532 L2 Final Score.
 - **2026-05-28:** Refreshed the public Website with a rocket favicon, direct GitHub / Hugging Face links, diversified demo assets, and updated real test examples. Level 1 now highlights thermal cycler and vortex mixer samples with upright checked asset views. Level 2 now shows plasmid DNA purification and mRNA cleanup samples with card-based constraints, available-input cards, expandable action-pool cards, and graph-like gold action sequences.
-- **2026-05-28:** Initialized the public LabHorizon repository and released the two Hugging Face datasets: Level 1 3D Asset Perception and Level 2 Protocol-Conditioned Planning, each with train and test splits.
+- **2026-05-28:** Initialized the public LabHorizon repository and released the two Hugging Face datasets: Level 1 3D Asset Perception and Level 2 Protocol-Aligned Planning, each with train and test splits.
 
 ## ✨ Highlights
 
@@ -77,7 +77,7 @@ LabHorizon is built from three resource layers: laboratory 3D assets, real-world
 | Level | Hugging Face Dataset | Input | Target | Metric |
 |:---|:---|:---|:---|:---|
 | **Level 1** | [LabHorizon-3D-Asset-Perception](https://huggingface.co/datasets/Stanford-CongLab/LabHorizon-3D-Asset-Perception) | Three asset views, historical actions, candidate next actions | Gold next action | Next-action accuracy |
-| **Level 2** | [LabHorizon-Protocol-Conditioned-Planning](https://huggingface.co/datasets/Stanford-CongLab/LabHorizon-Protocol-Conditioned-Planning) | Context, goal, constraints, available inputs, action pool | Gold experimental action sequence | L2 Action Sequence Similarity, L2 Parameter Accuracy |
+| **Level 2** | [LabHorizon Protocol-Aligned Planning](https://huggingface.co/datasets/Stanford-CongLab/LabHorizon-Protocol-Conditioned-Planning) | Context, goal, constraints, available inputs, action pool | Gold experimental action sequence | L2 Action Sequence Similarity, L2 Parameter Accuracy |
 
 ### 🔬 Level 1 Dataset
 
@@ -139,7 +139,7 @@ Final Next Action: X
 
 `X` may be a candidate letter or the exact candidate action. The evaluator maps the final response back to the candidate list and reports `next_action_accuracy`.
 
-### 🧪 Level 2: Protocol-Conditioned Planning
+### 🧪 Level 2: Protocol-Aligned Planning
 
 Level 2 prompts contain a real-world experimental context, constraints, available inputs, and an action pool. The model may answer in natural language, but the structured action sequence must appear as Python-style function calls, usually inside a fenced code block:
 
@@ -179,7 +179,7 @@ The tables below report direct-prompting model results on the current `v20260510
 | 13 | Qwen3.6 35B-A3B | 0.475 |
 | 14 | Gemini 3.1 Pro | 0.465 |
 
-### 🧪 Level 2: Protocol-Conditioned Planning
+### 🧪 Level 2: Protocol-Aligned Planning
 
 | Rank | Model | L2 Final Score | L2 Action Sequence Similarity | L2 Parameter Accuracy |
 |:---:|:---|---:|---:|---:|
@@ -218,13 +218,13 @@ The table compares direct-prompting SOTA/baseline systems with our trained+agent
 
 Agent setting: `Qwen3.6-35B-A3B(trained)` is used as Actor, and Gemini 3.1 Pro is used as Simulator/Selector. The Simulator/Selector choice is the current setting and has not been exhaustively ablated.
 
-The result supports the **Optimizable Learning Loop** design. The trained+agents system provides more stable protocol-conditioned action prediction: it improves Level 1 asset-to-action alignment and better preserves action order, parameters, and intermediate dependencies. It does not solve the benchmark completely: Level 2 exact-match recovery remains hard, so continued agent refinement is still useful for checking global state consistency, action granularity, and parameter constraints during inference.
+The result supports the **Optimizable Learning Loop** design. The trained+agents system provides more stable protocol-aligned action prediction: it improves Level 1 asset-to-action alignment and better preserves action order, parameters, and intermediate dependencies. It does not solve the benchmark completely: Level 2 exact-match recovery remains hard, so continued agent refinement is still useful for checking global state consistency, action granularity, and parameter constraints during inference.
 
 **Training case insight.** In a successful Level 2 organoid-preparation case, the trained+agents system preserves two parallel sample branches, two `100 x g, 5 min, 4 C` centrifugation steps, branch-specific volume adjustment, and virus aliquot thawing on ice. This directly tests **Long-Horizon Planning** and **Real-World Protocol Alignment**. In a harder Golden Gate thermal-cycler case, the same system produces parseable actions but incorrectly expands a thermal-cycler program into local incubation calls and changes the required device-state order. This failure illustrates the remaining gap between local action familiarity and globally correct long-horizon experimental planning.
 
 ## 🤖 Actor-Simulator-Selector Agent
 
-LabHorizon includes a bounded **Actor-Simulator-Selector** agent for protocol-conditioned action prediction. The agent is not an open-ended ReAct loop and does not use a physical simulator. It wraps model sampling with a structured experimental state checker:
+LabHorizon includes a bounded **Actor-Simulator-Selector** agent for protocol-aligned action prediction. The agent is not an open-ended ReAct loop and does not use a physical simulator. It wraps model sampling with a structured experimental state checker:
 
 <p align="center">
   <img src="assets/figure3_agent.png" alt="Actor-Simulator-Selector agent pipeline" width="100%">
@@ -364,7 +364,7 @@ LabHorizon/
 │   │   ├── prompts.py            # Multi-image next-action prompts and answer parsing
 │   │   └── evaluate.py           # Level 1 evaluation entry point
 │   └── level2/
-│       ├── prompts.py            # Protocol-conditioned planning prompts
+│       ├── prompts.py            # Protocol-aligned planning prompts
 │       ├── metrics.py            # AST parsing and L2 ASS / L2 PA metrics
 │       └── evaluate.py           # Level 2 evaluation entry point
 ├── agents/

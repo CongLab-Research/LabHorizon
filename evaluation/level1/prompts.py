@@ -59,7 +59,7 @@ def pil_to_data_url(image: Any, *, max_side: int = 1024) -> str:
 def build_level1_messages(row: dict[str, Any]) -> list[dict[str, Any]]:
     candidates = candidate_action_lines(row["candidate_next_actions"])
     text = (
-        "You are solving a LabHorizon Level 1 protocol-conditioned next-action prediction task.\n"
+        "You are solving a LabHorizon Level 1 protocol-aligned next-action prediction task.\n"
         "Inspect the three views of the same laboratory asset and use the historical actions and current state.\n"
         "Reason briefly, then end with exactly one line: Final Next Action: X, where X is one of A-J or the exact candidate action.\n\n"
         f"Historical actions and current state:\n{row['historical_actions']}\n\n"

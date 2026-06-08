@@ -30,12 +30,12 @@ const MODEL_LIBRARY = {
     ],
     rotation: [-Math.PI / 2, 0, Math.PI],
     targetSize: 3.4,
-    tags: ["3D asset", "PCR", "Protocol-conditioned action prediction"],
+    tags: ["3D asset", "PCR", "Protocol-aligned action prediction"],
   },
   centrifugeMini: {
     label: "Mini centrifuge / Tiangen Tgear",
     description:
-      "Interactive 3D reference asset for spin, clarification, and transfer stages in protocol-conditioned planning tasks.",
+      "Interactive 3D reference asset for spin, clarification, and transfer stages in protocol-aligned planning tasks.",
     parts: [
       ["assets/models/centrifuge_mini/body-visual-0.obj", "#262626"],
       ["assets/models/centrifuge_mini/body-visual-1.obj", "#f0dd34"],
@@ -67,7 +67,7 @@ const MODEL_LIBRARY = {
   vortexMixer: {
     label: "Vortex mixer",
     description:
-      "Interactive 3D reference asset for vortexing, resuspension, and short mixing stages in protocol-conditioned action prediction.",
+      "Interactive 3D reference asset for vortexing, resuspension, and short mixing stages in protocol-aligned action prediction.",
     parts: [
       ["assets/models/vortex_mixer/body-visual-0.obj", "#d7d8d5"],
       ["assets/models/vortex_mixer/body-visual-1.obj", "#2a3b56"],
@@ -323,7 +323,7 @@ function buildSections(data) {
       kicker: "Level 1",
       title: "Laboratory 3D Asset Perception",
       summary:
-        "Protocol-conditioned next-action prediction from three real asset views, historical actions, and candidate next actions.",
+        "Protocol-aligned next-action prediction from three real asset views, historical actions, and candidate next actions.",
       note:
         "Level 1 keeps the left-side view focused on one interactive 3D laboratory asset while the right side shows the real public test sample and its three rendered dataset views.",
       samples: data.level1.map((row, index) => ({
@@ -331,7 +331,7 @@ function buildSections(data) {
         id: row.id,
         tabTitle: `Test ${index + 1}`,
         tabMeta: row.asset_name,
-        kind: "Protocol-conditioned next action",
+        kind: "Protocol-aligned next action",
       })),
     },
     {
@@ -340,9 +340,9 @@ function buildSections(data) {
       navTitle: "Long-Horizon Planning",
       navMeta: "Context + constraints + action pool -> structured action sequence",
       kicker: "Level 2",
-      title: "Long-Horizon Protocol-Conditioned Planning",
+      title: "Long-Horizon Protocol-Aligned Planning",
       summary:
-        "Protocol-conditioned long-horizon planning where the model produces a structured experimental action sequence from an action pool.",
+        "Protocol-aligned long-horizon planning where the model produces a structured experimental action sequence from an action pool.",
       note:
         "Level 2 uses a multi-instrument 3D context because planning errors often come from action omissions, order swaps, parameter drift, and broken intermediate-state dependencies.",
       samples: data.level2.map((row, index) => ({
@@ -429,7 +429,7 @@ async function renderInstrumentSet(sample) {
   dom.featureTitle.textContent = sample.title;
   dom.featureDescription.textContent =
     "A compact 3D instrument set is retained to keep long-horizon protocol planning tied to laboratory assets and intermediate experimental states.";
-  renderTags(["Action pool", "AST scoring", "Protocol-conditioned planning"]);
+  renderTags(["Action pool", "AST scoring", "Protocol-aligned planning"]);
   dom.resetView.hidden = true;
 
   showFeatureMode("multi");
