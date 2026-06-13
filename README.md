@@ -17,7 +17,7 @@
 [![Data L2 Protocol](https://img.shields.io/badge/%F0%9F%A4%97%20Data-L2%20Protocol-purple)](https://huggingface.co/datasets/Stanford-CongLab/LabHorizon-Protocol-Conditioned-Planning)&nbsp;
 [![Model](https://img.shields.io/badge/%F0%9F%A4%97%20Model-Qwen3.6-orange)](https://huggingface.co/Stanford-CongLab/LabHorizon-Model)
 
-**Enhancing Laboratory 3D Perception and Long-Horizon Planning via Protocol-Aligned Action Prediction**
+**Pushing the Limits of Laboratory 3D Perception and Long-Horizon Planning via Protocol-Aligned Action Prediction**
 
 [Overview](#-overview) | [News](#-news) | [Highlights](#-highlights) | [Datasets](#-datasets) | [Evaluation](#-evaluation) | [Leaderboard](#-leaderboard) | [Training](#-training-result) | [Agent](#-actor-simulator-selector-agent) | [Quick Start](#-quick-start) | [Citation](#-citation)
 
